@@ -1,0 +1,10 @@
+<h2>Artists</h2>
+
+<p><ul id="artistlist">
+	{% for artist in artists %}
+		<li><a href="/artist/{{artist.id}}/{{artist.name|quote_plus}}">{{artist.name}}</a></li>
+	{% endfor %}
+	</ul>
+</p>
+<a href="add">Add artist.</a><br>
+<a href="delete">Delete artist.</a><br>
