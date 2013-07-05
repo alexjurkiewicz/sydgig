@@ -1,5 +1,5 @@
 from sqlalchemy import create_engine
-from sqlalchemy import Table, Column, ForeignKey, Integer, String, DateTime
+from sqlalchemy import Table, Column, ForeignKey, Integer, String, DateTime, UniqueConstraint
 from sqlalchemy.orm import relationship, backref
 from sqlalchemy.orm import sessionmaker
 
@@ -44,6 +44,9 @@ class User(Base):
 
 class Gig(Base):
     __tablename__ = 'gigs'
+    __table_args__ = (
+            UniqueConstraint('time_start', 'venue_id'),
+            )
     id = Column(Integer, primary_key = True)
     time_start = Column(DateTime)
     venue_id = Column(Integer, ForeignKey('venues.id'))
