@@ -1,6 +1,6 @@
 from __future__ import division, absolute_import
 
-import urllib
+import datetime
 
 from flask import Flask, request, redirect, url_for
 app = Flask(__name__)
@@ -75,6 +75,37 @@ def venue_delete():
         return redirect(url_for('venue'))
     else:
         template = templates.get_template("venue_delete.html")
+        return template.render()
+
+# Gigs
+@app.route('/gig/')
+def gig():
+    template = templates.get_template("gig.html")
+    return template.render(gigs=controller.get_gigs())
+
+@app.route('/gig/<int:id>')
+def gig_info(id, name=None):
+    return repr(controller.get_gig_by_id(id))
+
+@app.route('/gig/add/', methods=['GET', 'POST'])
+def gig_add():
+    if 'time_start' in request.form and 'venue_id' in request.form:
+        time_start = datetime.datetime.strptime(request.form.get('time_start'), '%Y-%m-%d %H:%M')
+        venue_id = request.form.get('venue_id')
+        controller.add_gig(time_start, venue_id)
+        return redirect(url_for('gig'))
+    else:
+        template = templates.get_template("gig_add.html")
+        return template.render()
+
+@app.route('/gig/delete/', methods=['GET', 'POST'])
+def gig_delete():
+    id = request.form.get('id')
+    if id:
+        controller.delete_gig(id)
+        return redirect(url_for('gig'))
+    else:
+        template = templates.get_template("gig_delete.html")
         return template.render()
 
 if __name__ == "__main__":

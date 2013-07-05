@@ -51,9 +51,9 @@ class Gig(Base):
     performers = relationship('Artist', secondary=gig_lineup, backref='gigs_performed')
     attendees = relationship('User', secondary=gig_attendance, backref='gigs_attended')
 
-    def __init__(self, time_start, venue):
+    def __init__(self, time_start, venue_id):
         self.time_start = time_start
-        self.venue_id = venue.id
+        self.venue_id = venue_id
 
     def __repr__(self):
         return '{Gig %s}' % (self.id)

@@ -29,9 +29,9 @@ def get_gigs():
 def get_gig_by_id(id):
     return database.Session().query(Gig).filter(Gig.id == id).one()
 
-def add_gig(time_start, venue):
+def add_gig(time_start, venue_id):
     s = database.Session()
-    s.add(Venue(time_start, venue))
+    s.add(Gig(time_start, venue_id))
     s.commit()
 
 def delete_gig(id):
