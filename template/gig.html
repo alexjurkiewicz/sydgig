@@ -1,0 +1,10 @@
+<h2>Gigs</h2>
+
+<p><ul id="giglist">
+	{% for gig in gigs %}
+        <li><a href="/gig/{{gig.id}}">{{gig.time_start}} @ {{gig.venue}}</a></li>
+	{% endfor %}
+	</ul>
+</p>
+<a href="add">Add gig.</a><br>
+<a href="delete">Delete gig.</a><br>
