@@ -90,10 +90,22 @@ def gig_info(id, name=None):
 
 @app.route('/gig/add/', methods=['GET', 'POST'])
 def gig_add():
-    if 'time_start' in request.form and 'venue_id' in request.form:
+    if 'time_start' in request.form and 'venue' in request.form and 'artists' in request.form:
         time_start = datetime.datetime.strptime(request.form.get('time_start'), '%Y-%m-%d %H:%M')
-        venue_id = request.form.get('venue_id')
-        controller.add_gig(time_start, venue_id)
+        venue = controller.get_venue_by_name(request.form.get('venue'))
+        if not venue:
+            controller.add_venue(request.form.get('venue'), 'Unknown')
+        venue = controller.get_venue_by_name(request.form.get('venue'))
+        artist_ids = []
+        for artist in request.form.getlist('artists'):
+            a = controller.get_artist_by_name(artist)
+            if a:
+                artist_ids.append(a.id)
+            else:
+                controller.add_artist(artist)
+                a = controller.get_artist_by_name(artist)
+                artist_ids.append(a.id)
+        controller.add_gig(time_start, venue.id, artist_ids)
         return redirect(url_for('gig'))
     else:
         template = templates.get_template("gig_add.html")
