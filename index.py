@@ -13,6 +13,11 @@ def index():
     template = templates.get_template("index.html")
     return template.render()
 
+@app.route('/about')
+def about():
+    template = templates.get_template("about.html")
+    return template.render()
+
 # Artists
 @app.route('/artist/')
 def artist():
