@@ -72,7 +72,11 @@ class Gig(Base):
         self.name = name
 
     def __repr__(self):
-        return '{Gig %s: %s}' % (self.id, ', '.join([i.name for i in self.performers]))
+        return '{Gig %s: %s: %s}' % (self.id, self.name if self.name else 'Untitled', ', '.join([i.name for i in self.performers]))
+
+    @property
+    def pretty_time_start(self):
+        return self.time_start.strftime('%A %d %B %Y, %I:%M %p')
 
 class Venue(Base):
     __tablename__ = 'venues'
