@@ -144,7 +144,7 @@ def delete_venue(id):
     s.delete(venue)
     s.commit()
 
-def update_venue_by_id(id, name, address):
+def update_venue_by_id(id, name=None, address=None):
     s = database.Session()
     venue = s.query(Venue).filter(Venue.id == id).one()
     if name:

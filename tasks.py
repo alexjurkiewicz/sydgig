@@ -46,6 +46,4 @@ def update_venue_data(name):
     info = googlemaps_api.get_place_info(name)
     if info:
         address = info['formatted_address']
-        name = info['name']
-
-        model.update_venue_by_id(original_record.id, name=name, address=address)
+        model.update_venue_by_id(original_record.id, address=address)
