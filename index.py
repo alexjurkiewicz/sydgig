@@ -112,7 +112,7 @@ def gig_add():
                 time_min=request.form['time_min'],
                 time_ampm=request.form['time_ampm'])
         try:
-            time_start = datetime.datetime.strptime(time_string, '%A %d %B, %Y %H:%M %p')
+            time_start = datetime.datetime.strptime(time_string, '%A %d %B, %Y %I:%M %p')
         except ValueError:
             print time_string
             # Invalid data for some reason
