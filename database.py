@@ -25,6 +25,7 @@ class Artist(Base):
     id = Column(Integer, primary_key = True)
     name = Column(String, unique = True)
     bio = Column(String)
+    image_url = Column(String)
 
     def __init__(self, name, bio=None):
         self.name = name
