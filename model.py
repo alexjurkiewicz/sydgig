@@ -1,6 +1,6 @@
-import tasks
+import datetime
 
-import database
+import tasks, database
 from database import Artist, Gig, User, Venue
 
 import sqlalchemy.orm
@@ -43,8 +43,11 @@ def update_artist_by_id(id, name=None, bio=None, image_url=None):
     s.commit()
 
 # Gigs
-def get_gigs():
-    return database.Session().query(Gig).all()
+def get_gigs(future_only=True):
+    if future_only:
+        return database.Session().query(Gig).filter(Gig.time_start > datetime.datetime.now()).all()
+    else:
+        return database.Session().query(Gig).all()
 
 def get_gig_by_id(id):
     return database.Session().query(Gig).filter(Gig.id == id).one()

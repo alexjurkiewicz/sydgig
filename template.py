@@ -1,6 +1,6 @@
 from jinja2 import Environment, FileSystemLoader
 
-import urllib, time
+import urllib, time, humanize
 
 def guess_autoescape(template_name):
     if template_name is None or '.' not in template_name:
@@ -11,11 +11,15 @@ def guess_autoescape(template_name):
 def quote_plus(value):
     return urllib.quote_plus(value)
 
+def naturaltime(value):
+    return humanize.naturaltime(value)
+
 templates = Environment(loader=FileSystemLoader('template/'),
                         autoescape=guess_autoescape,
                         extensions=['jinja2.ext.autoescape'])
 
 templates.filters['quote_plus'] = quote_plus
+templates.filters['naturaltime'] = naturaltime
 def date_year():
     return int(time.strftime("%Y"))
 def date_month():
