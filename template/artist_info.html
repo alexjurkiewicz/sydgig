@@ -9,14 +9,16 @@
 {% endblock %}
 
 {% block content %}
-<h2>Artist Info</h2>
-<h3>{{artist.name}}</h3>
-<p><img src="{{ artist.image_url }}"></p>
+<h2>{{artist.name}}</h2>
+<p><img style="float: right;" src="{{ artist.image_url }}"></p>
 <p>
-Bio: {% autoescape false %}{{artist.bio}}{% endautoescape %}
+{% autoescape false %}{{artist.bio}}{% endautoescape %}
 </p>
+<h3>Gigs</h3>
+<p><ul>
+    {% for gig in artist.gigs_performed %}<li><a href="/gig/{{gig.id}}">{{gig.time_start|naturaltime}} at {{gig.venue.name}}</a></li>{% endfor %}
+</ul></p>
 
-<a href="..">Artists.</a><br>
 {% endblock %}
 
 {% block footer %}
