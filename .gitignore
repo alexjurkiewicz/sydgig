@@ -3,4 +3,3 @@ venv*
 *.pyc
 celerydb-results.sqlite
 celerydb-tasks.sqlite
-static/artist_images/*
