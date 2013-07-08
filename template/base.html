@@ -10,11 +10,17 @@
 <body>
     <div class="container-narrow">
         <div class="masthead">
+            {% set navigation_bar = [
+                ('/', 'index', 'Index'),
+                ('/gig', 'gig', 'Gigs'),
+                ('/artist', 'artist', 'Artists'),
+                ('/venue', 'venue', 'Venues'),
+            ] -%}
+            {% set active_page = active_page|default('index') -%}
             <ul class="nav nav-pills pull-right">
-                <li><a href="/">Home</a></li>
-                <li><a href="/gig">Gigs</a></li>
-                <li><a href="/artist">Artists</a></li>
-                <li><a href="/venue">Venues</a></li>
+                {% for href, id, caption in navigation_bar %}
+                <li {% if id == active_page %}class="active"{% endif %}><a href="{{ href }}">{{ caption }}</a></li>
+                {% endfor %}
             </ul>
             <h1>SydGig</h1>
         </div>
