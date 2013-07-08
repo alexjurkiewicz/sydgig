@@ -6,8 +6,8 @@ from sqlalchemy.orm import relationship, backref
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
 
-engine = create_engine('sqlite:///testdb.sqlite', echo=True)
-#engine = create_engine('sqlite:///testdb.sqlite', echo=False)
+#engine = create_engine('sqlite:///testdb.sqlite', echo=True)
+engine = create_engine('sqlite:///testdb.sqlite', echo=False)
 Base = declarative_base()
 
 gig_lineup = Table('gig_lineup', Base.metadata,

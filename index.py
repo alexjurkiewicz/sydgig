@@ -95,7 +95,8 @@ def venue_delete():
 @app.route('/gig/')
 def gig():
     template = templates.get_template("gig.html")
-    return template.render(gigs=model.get_gigs())
+    gigs=model.get_gigs(group_by_day=True)
+    return template.render(gigdates=gigs)
 
 @app.route('/gig/<int:id>')
 def gig_info(id, name=None):

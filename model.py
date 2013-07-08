@@ -43,11 +43,23 @@ def update_artist_by_id(id, name=None, bio=None, image_url=None):
     s.commit()
 
 # Gigs
-def get_gigs(future_only=True):
+def get_gigs(future_only=True, group_by_day=False):
     if future_only:
-        return database.Session().query(Gig).filter(Gig.time_start > datetime.datetime.now()).all()
+        giglist = database.Session().query(Gig).filter(Gig.time_start > datetime.datetime.now()).all()
     else:
-        return database.Session().query(Gig).all()
+        giglist = database.Session().query(Gig).all()
+    if group_by_day:
+        gigs = {}
+        for gig in giglist:
+            time = gig.time_start
+            date = datetime.date(time.year, time.month, time.day)
+            if date not in gigs:
+                gigs[date] = [gig]
+            else:
+                gigs[date].append(gig)
+        return gigs
+    else:
+        return giglist
 
 def get_gig_by_id(id):
     return database.Session().query(Gig).filter(Gig.id == id).one()

@@ -11,11 +11,14 @@
 {% block content %}
 <h2>Gigs</h2>
 
-<p><ul id="giglist">
-	{% for gig in gigs %}
+{% for date in gigdates|sort %}
+<h3>{{ date }}</h3>
+    <p><ul>
+    {% for gig in gigdates[date] %}
     <li><a href="/gig/{{gig.id}}">{{gig.name}}, {{gig.pretty_time_start}}</a> at {{gig.venue.name}} with {{ gig.performers|join(', ', attribute='name') }} </a></li>
+    </ul></p>
 	{% endfor %}
-	</ul>
+{% endfor %}
 </p>
 <a href="add">Add gig.</a><br>
 <a href="delete">Delete gig.</a><br>

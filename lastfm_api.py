@@ -7,4 +7,8 @@ api = lastfm.Api(API_KEY)
 
 def get_artist_info(name):
     '''Given an artist name, return last.fm info about them'''
-    return api.get_artist(name)
+    try:
+        artist = api.get_artist(name)
+    except:
+        artist = None
+    return artist
