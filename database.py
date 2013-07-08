@@ -1,11 +1,13 @@
+import util
+
 from sqlalchemy import create_engine
 from sqlalchemy import Table, Column, ForeignKey, Integer, String, DateTime, UniqueConstraint
 from sqlalchemy.orm import relationship, backref
 from sqlalchemy.orm import sessionmaker
-
-engine = create_engine('sqlite:///testdb.sqlite', echo=True)
-
 from sqlalchemy.ext.declarative import declarative_base
+
+#engine = create_engine('sqlite:///testdb.sqlite', echo=True)
+engine = create_engine('sqlite:///testdb.sqlite', echo=False)
 Base = declarative_base()
 
 gig_lineup = Table('gig_lineup', Base.metadata,
@@ -24,12 +26,16 @@ class Artist(Base):
     name = Column(String, unique = True)
     bio = Column(String)
 
-    def __init__(self, name, bio):
+    def __init__(self, name, bio=None):
         self.name = name
         self.bio = bio
 
     def __repr__(self):
-        return '{Artist %s: %s}' % (self.id, self.name)
+        return u'{Artist %s: %s}' % (self.id, self.name)
+
+    @property
+    def name_slug(self):
+        return util.slugify(self.name)
 
 class User(Base):
     __tablename__ = 'users'
@@ -41,6 +47,10 @@ class User(Base):
 
     def __repr__(self):
         return '{User %s: %s}' % (self.id, self.name)
+
+    @property
+    def name_slug(self):
+        return util.slugify(self.name)
 
 class Gig(Base):
     __tablename__ = 'gigs'
@@ -59,7 +69,7 @@ class Gig(Base):
         self.venue_id = venue_id
 
     def __repr__(self):
-        return '{Gig %s}' % (self.id)
+        return '{Gig %s: %s}' % (self.id, ', '.join([i.name for i in self.performers]))
 
 class Venue(Base):
     __tablename__ = 'venues'
@@ -75,6 +85,10 @@ class Venue(Base):
 
     def __repr__(self):
         return '{Venue %s: %s}' % (self.id, self.name)
+
+    @property
+    def name_slug(self):
+        return util.slugify(self.name)
 
 Base.metadata.create_all(engine) 
 Session = sessionmaker(bind=engine)
