@@ -14,6 +14,9 @@
 <p>
 Address: <a href="https://maps.google.com.au/maps?q={{venue.address|quote_plus}}">{{venue.address}}</a>
 </p>
+<p>
+<iframe width="425" height="350" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="https://maps.google.com.au/maps?f=q&amp;source=s_q&amp;hl=en&amp;geocode=&amp;q={{ venue.name|quote_plus }},%20{{ venue.address|quote_plus }}&amp;aq=&amp;ie=UTF8&amp;hnear=&amp;t=m&amp;iwloc=A&amp;output=embed"></iframe>
+</p>
 
 <a href="..">All Venues.</a><br>
 {% endblock %}
