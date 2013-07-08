@@ -30,13 +30,15 @@ def delete_artist(id):
     s.delete(artist)
     s.commit()
 
-def update_artist_by_id(id, name=None, bio=None):
+def update_artist_by_id(id, name=None, bio=None, image_url=None):
     s = database.Session()
     artist = s.query(Artist).filter(Artist.id == id).one()
     if name:
         artist.name = name
     if bio:
         artist.bio = bio
+    if image_url:
+        artist.image_url = image_url
     s.add(artist)
     s.commit()
 

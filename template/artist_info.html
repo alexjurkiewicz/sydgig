@@ -1,5 +1,6 @@
 <h2>Artist Info</h2>
 <h3>{{artist.name}}</h3>
+<p><img src="{{ artist.image_url }}">
 <p>
 Bio: {% autoescape false %}{{artist.bio}}{% endautoescape %}
 </p>
