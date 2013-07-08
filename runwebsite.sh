@@ -1,3 +1,3 @@
 #!/bin/bash
 
-./index.py
+python ./index.py
