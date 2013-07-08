@@ -9,6 +9,14 @@
         document.getElementById('gigAddArtists').appendChild(newdiv);
     }
 </script>
+<link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
+<script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+<script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+<script>
+    $(function() {
+        $( "#datepicker" ).datepicker({ dateFormat: "DD d MM, yy" });
+    });
+</script>
 {% endblock %}
 
 {% block header %}
@@ -19,29 +27,8 @@
 <h2>Add Gig</h2>
 <p>
     <form action="" method="post" id="gig-add">
-        <p>Date:
-            <select name="date_day">
-                {% for i in range(1,31) %}
-                {% if i == date_day() %}
-                <option value="{{ i }}" selected="selected">{{ i }}</option>
-                {% else %}
-                <option value="{{ i }}">{{ i }}</option>
-                {% endif %}
-                {% endfor %}
-            </select>
-            <select name="date_month">
-                {% for i in ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"] %}
-                {% if i == date_month() %}
-                <option value="{{ i }}" selected="selected">{{ i }}</option>
-                {% else %}
-                <option value="{{ i }}">{{ i }}</option>
-                {% endif %}
-                {% endfor %}
-            </select>
-            <select name="date_year">
-                <option value="{{ date_year() }}" selected="selected">{{ date_year() }}</option>
-                <option value="{{ date_year() }}">{{ date_year() + 1}}</option>
-            </select>
+        <p>Name (optional):<input type="text" name="name" /></p>
+        <p>Date: <input type="text" id="datepicker" name="date" /></p>
         <p>Time:
             <select name="time_hour">
                 <option value="0">0</option>

@@ -61,13 +61,15 @@ class Gig(Base):
     id = Column(Integer, primary_key = True)
     time_start = Column(DateTime)
     venue_id = Column(Integer, ForeignKey('venues.id'))
+    name = Column(String) # note: this is optional!
 
     performers = relationship('Artist', secondary=gig_lineup, backref='gigs_performed')
     attendees = relationship('User', secondary=gig_attendance, backref='gigs_attended')
 
-    def __init__(self, time_start, venue_id):
+    def __init__(self, time_start, venue_id, name=None):
         self.time_start = time_start
         self.venue_id = venue_id
+        self.name = name
 
     def __repr__(self):
         return '{Gig %s: %s}' % (self.id, ', '.join([i.name for i in self.performers]))
@@ -82,7 +84,10 @@ class Venue(Base):
 
     def __init__(self, name, address = None):
         self.name = name
-        self.address = address
+        if address:
+            self.address = address
+        else:
+            self.address = name
 
     def __repr__(self):
         return '{Venue %s: %s}' % (self.id, self.name)

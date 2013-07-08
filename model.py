@@ -49,9 +49,9 @@ def get_gigs():
 def get_gig_by_id(id):
     return database.Session().query(Gig).filter(Gig.id == id).one()
 
-def add_gig(time_start, venue_id, artist_ids):
+def add_gig(time_start, venue_id, artist_ids, name=None):
     s = database.Session()
-    gig = Gig(time_start, venue_id)
+    gig = Gig(time_start, venue_id, name=name)
     for id in artist_ids:
         try:
             artist = s.query(Artist).filter(Artist.id == id).one()

@@ -104,17 +104,15 @@ def gig_info(id, name=None):
 
 @app.route('/gig/add/', methods=['GET', 'POST'])
 def gig_add():
-    if all([ i in request.form for i in ['date_day', 'date_month', 'date_year', 'time_hour', 'time_min', 'time_ampm', 'venue', 'artists']]):
+    if all([ i in request.form for i in ['date', 'time_hour', 'time_min', 'time_ampm', 'venue', 'artists']]):
 
-        time_string = "{date_day}-{date_month}-{date_year} {time_hour}:{time_min} {time_ampm}".format(
-                date_day=request.form['date_day'],
-                date_month=request.form['date_month'],
-                date_year=request.form['date_year'],
+        time_string = "{date} {time_hour}:{time_min} {time_ampm}".format(
+                date=request.form['date'],
                 time_hour=request.form['time_hour'],
                 time_min=request.form['time_min'],
                 time_ampm=request.form['time_ampm'])
         try:
-            time_start = datetime.datetime.strptime(time_string, '%d-%B-%Y %H:%M %p')
+            time_start = datetime.datetime.strptime(time_string, '%A %d %B, %Y %H:%M %p')
         except ValueError:
             print time_string
             # Invalid data for some reason
@@ -135,7 +133,8 @@ def gig_add():
                 model.add_artist(artist)
                 a = model.get_artist_by_name(artist)
                 artist_ids.append(a.id)
-        model.add_gig(time_start, venue.id, artist_ids)
+
+        model.add_gig(time_start, venue.id, artist_ids, name=request.form.get('name'))
         return redirect(url_for('gig'))
     else:
         template = templates.get_template("gig_add.html")
