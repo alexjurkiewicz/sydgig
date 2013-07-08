@@ -132,11 +132,12 @@ def get_venue_by_name(name):
     except sqlalchemy.orm.exc.NoResultFound:
         return None
 
-def add_venue(name, address):
+def add_venue(name, address=None):
     s = database.Session()
     s.add(Venue(name, address))
     s.commit()
-    tasks.update_venue_data.delay(name)
+    if not address:
+        tasks.update_venue_data.delay(name)
 
 def delete_venue(id):
     s = database.Session()

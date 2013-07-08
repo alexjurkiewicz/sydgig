@@ -12,7 +12,7 @@
 <h2>Venue Info</h2>
 <h3>{{venue.name}}</h3>
 <p>
-Address: {{venue.address}}
+Address: <a href="https://maps.google.com.au/maps?q={{venue.address|quote_plus}}">{{venue.address}}</a>
 </p>
 
 <a href="..">All Venues.</a><br>
