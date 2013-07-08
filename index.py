@@ -1,6 +1,6 @@
 from __future__ import division, absolute_import
 
-import datetime
+import datetime, random
 
 import template
 import model
@@ -16,8 +16,14 @@ def index():
 
 @app.route('/about')
 def about():
+    vids = ( 'http://www.youtube.com/watch?v=M8XmoroZ3zo',
+            'http://www.youtube.com/watch?v=yBL3aKLZ6qY',
+            'http://www.youtube.com/watch?v=k6_G5PlEXdk',
+            'http://www.youtube.com/watch?v=jPv0K4--NFM',
+            'http://www.youtube.com/watch?v=ED6yVA_zw7A',
+            'http://www.youtube.com/watch?v=UeJQGvZQxqk')
     template = templates.get_template("about.html")
-    return template.render()
+    return template.render(video=random.choice(vids))
 
 # Artists
 @app.route('/artist/')
