@@ -98,6 +98,7 @@ def gig_add():
         venue = controller.get_venue_by_name(request.form.get('venue'))
         artist_ids = []
         for artist in request.form.getlist('artists'):
+            if not artist: continue
             a = controller.get_artist_by_name(artist)
             if a:
                 artist_ids.append(a.id)
