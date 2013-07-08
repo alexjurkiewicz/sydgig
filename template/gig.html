@@ -13,7 +13,7 @@
 
 <p><ul id="giglist">
 	{% for gig in gigs %}
-    <li><a href="/gig/{{gig.id}}">{{gig.name}}, {{gig.pretty_time_start}}</a> at <a href="/venue/{{gig.venue.id}}/{{gig.venue.name_slug}}">{{gig.venue.name}}</a> with {{ gig.performers|join(', ', attribute='name') }} </a></li>
+    <li><a href="/gig/{{gig.id}}">{{gig.name}}, {{gig.pretty_time_start}}</a> at {{gig.venue.name}} with {{ gig.performers|join(', ', attribute='name') }} </a></li>
 	{% endfor %}
 	</ul>
 </p>
