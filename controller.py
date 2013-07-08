@@ -1,6 +1,8 @@
 import database
 from database import Artist, Gig, User, Venue
 
+import sqlalchemy.orm
+
 # Artists
 def get_artists():
     return database.Session().query(Artist).all()
@@ -9,9 +11,12 @@ def get_artist_by_id(id):
     return database.Session().query(Artist).filter(Artist.id == id).one()
 
 def get_artist_by_name(name):
-    return database.Session().query(Artist).filter(Artist.name == name).one()
+    try:
+        return database.Session().query(Artist).filter(Artist.name == name).one()
+    except sqlalchemy.orm.exc.NoResultFound:
+        return None
 
-def add_artist(name, bio):
+def add_artist(name, bio=None):
     s = database.Session()
     s.add(Artist(name, bio))
     s.commit()
@@ -22,6 +27,16 @@ def delete_artist(id):
     s.delete(artist)
     s.commit()
 
+def update_artist_by_id(id, name=None, bio=None):
+    s = database.Session()
+    artist = s.query(Artist).filter(Artist.id == id).one()
+    if name:
+        artist.name = name
+    if bio:
+        artist.bio = bio
+    s.add(artist)
+    s.commit()
+
 # Gigs
 def get_gigs():
     return database.Session().query(Gig).all()
@@ -29,9 +44,16 @@ def get_gigs():
 def get_gig_by_id(id):
     return database.Session().query(Gig).filter(Gig.id == id).one()
 
-def add_gig(time_start, venue_id):
+def add_gig(time_start, venue_id, artist_ids):
     s = database.Session()
-    s.add(Gig(time_start, venue_id))
+    gig = Gig(time_start, venue_id)
+    for id in artist_ids:
+        try:
+            artist = s.query(Artist).filter(Artist.id == id).one()
+            gig.performers.append(artist)
+        except sqlalchemy.orm.exc.NoResultFound:
+            pass
+    s.add(gig)
     s.commit()
 
 def delete_gig(id):
@@ -100,7 +122,10 @@ def get_venue_by_id(id):
     return database.Session().query(Venue).filter(Venue.id == id).one()
 
 def get_venue_by_name(name):
-    return database.Session().query(Venue).filter(Venue.name == name).one()
+    try:
+        return database.Session().query(Venue).filter(Venue.name == name).one()
+    except sqlalchemy.orm.exc.NoResultFound:
+        return None
 
 def add_venue(name, address):
     s = database.Session()
