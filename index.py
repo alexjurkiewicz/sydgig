@@ -55,7 +55,8 @@ def venue():
 @app.route('/venue/<int:id>/<name>')
 @app.route('/venue/<int:id>/')
 def venue_info(id, name=None):
-    return repr(model.get_venue_by_id(id))
+    template = templates.get_template("venue_info.html")
+    return template.render(venue=model.get_venue_by_id(id))
 
 @app.route('/venue/add/', methods=['GET', 'POST'])
 def venue_add():
