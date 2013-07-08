@@ -5,7 +5,7 @@ import datetime
 import template
 import model
 
-from flask import Flask, request, redirect, url_for
+from flask import Flask, request, redirect, url_for, abort
 app = Flask(__name__)
 templates = template.templates
 
@@ -98,12 +98,27 @@ def gig_info(id, name=None):
 
 @app.route('/gig/add/', methods=['GET', 'POST'])
 def gig_add():
-    if 'time_start' in request.form and 'venue' in request.form and 'artists' in request.form:
-        time_start = datetime.datetime.strptime(request.form.get('time_start'), '%Y-%m-%d %H:%M')
+    if all([ i in request.form for i in ['date_day', 'date_month', 'date_year', 'time_hour', 'time_min', 'time_ampm', 'venue', 'artists']]):
+
+        time_string = "{date_day}-{date_month}-{date_year} {time_hour}:{time_min} {time_ampm}".format(
+                date_day=request.form['date_day'],
+                date_month=request.form['date_month'],
+                date_year=request.form['date_year'],
+                time_hour=request.form['time_hour'],
+                time_min=request.form['time_min'],
+                time_ampm=request.form['time_ampm'])
+        try:
+            time_start = datetime.datetime.strptime(time_string, '%d-%B-%Y %H:%M %p')
+        except ValueError:
+            print time_string
+            # Invalid data for some reason
+            abort(400)
+
         venue = model.get_venue_by_name(request.form.get('venue'))
         if not venue:
             model.add_venue(request.form.get('venue'))
         venue = model.get_venue_by_name(request.form.get('venue'))
+
         artist_ids = []
         for artist in request.form.getlist('artists'):
             if not artist: continue
