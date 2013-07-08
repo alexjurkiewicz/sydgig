@@ -1,7 +1,7 @@
 BROKER_URL = 'sqla+sqlite:///celerydb-tasks.sqlite'
 BACKEND_URL = 'sqla+sqlite:///celerydb-results.sqlite'
 
-import model, lastfm_api
+import model, lastfm_api, googlemaps_api
 import os, requests
 
 from celery import Celery
@@ -37,5 +37,15 @@ def update_artist_data(name):
         return "Couldn't update artist data for %s as no record matches that name!" % name
 
 @celery.task
-def test():
-    print os.getcwd()
+def update_venue_data(name):
+    '''Given the name of a venue in the database, clean up its record'''
+    original_record = model.get_venue_by_name(name)
+    if not original_record:
+        return "Couldn't update venue data for %s as no record matches that name!" % name
+
+    info = googlemaps_api.get_place_info(name)
+    if info:
+        address = info['formatted_address']
+        name = info['name']
+
+        model.update_venue_by_id(original_record.id, name=name, address=address)
