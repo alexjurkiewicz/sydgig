@@ -1,8 +1,24 @@
+{% extends "base.html" %}
+
+{% block head %}
+<title>SydGig</title>
+{% endblock %}
+
+{% block header %}
+{{ super() }}
+{% endblock %}
+
+{% block content %}
 <h2>Artist Info</h2>
 <h3>{{artist.name}}</h3>
-<p><img src="{{ artist.image_url }}">
+<p><img src="{{ artist.image_url }}"></p>
 <p>
 Bio: {% autoescape false %}{{artist.bio}}{% endautoescape %}
 </p>
 
 <a href="..">Artists.</a><br>
+{% endblock %}
+
+{% block footer %}
+{{ super() }}
+{% endblock %}

@@ -1,26 +1,35 @@
-<html>
-    <head>
-        <script type="text/javascript">
-            var counter = 1;
-            function addArtistField(){
-                var newdiv = document.createElement('div');
-                newdiv.innerHTML = '<p>Artist playing: <input type="text" name="artists"></p>';
-                document.getElementById('gigAddArtists').appendChild(newdiv);
-            }
-        </script>
-    </head>
-    <body>
-    <h2>Add Gig</h2>
-    <p>
-        <form action="" method="post" id="gig-add">
-            <p>Start Time (format %Y-%m-%d %H:%M):<input type="text" name="time_start"></p>
-            <p>Venue Name:<input type="text" name="venue"></p>
-            <p><div id="gigAddArtists">
-                Artist playing:<input type="text" name="artists"><br>
-            </div></p>
-            <p><a href="#" onclick="addArtistField();">Add another artist.</a></p>
-            <p><input type="submit" value="Add gig"/></p>
-        </form>
-    </p>
-    </body>
-</html>
+{% extends "base.html" %}
+
+{% block head %}
+<title>SydGig</title>
+<script type="text/javascript">
+    function addArtistField(){
+        var newdiv = document.createElement('div');
+        newdiv.innerHTML = '<p>Artist playing: <input type="text" name="artists"></p>';
+        document.getElementById('gigAddArtists').appendChild(newdiv);
+    }
+</script>
+{% endblock %}
+
+{% block header %}
+{{ super() }}
+{% endblock %}
+
+{% block content %}
+<h2>Add Gig</h2>
+<p>
+    <form action="" method="post" id="gig-add">
+        <p>Start Time (format %Y-%m-%d %H:%M):<input type="text" name="time_start"></p>
+        <p>Venue Name:<input type="text" name="venue"></p>
+        <p><div id="gigAddArtists">
+        Artist playing:<input type="text" name="artists"><br>
+        </div></p>
+        <p><a href="#" onclick="addArtistField();">Add another artist.</a></p>
+        <p><input type="submit" value="Add gig"/></p>
+    </form>
+</p>
+{% endblock %}
+
+{% block footer %}
+{{ super() }}
+{% endblock %}

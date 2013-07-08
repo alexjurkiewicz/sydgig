@@ -1,3 +1,14 @@
+{% extends "base.html" %}
+
+{% block head %}
+<title>SydGig</title>
+{% endblock %}
+
+{% block header %}
+{{ super() }}
+{% endblock %}
+
+{% block content %}
 <h2>Artists</h2>
 
 <p><ul id="artistlist">
@@ -8,3 +19,8 @@
 </p>
 <a href="add">Add artist.</a><br>
 <a href="delete">Delete artist.</a><br>
+{% endblock %}
+
+{% block footer %}
+{{ super() }}
+{% endblock %}

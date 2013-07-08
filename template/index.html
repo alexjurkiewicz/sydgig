@@ -1,4 +1,17 @@
-<a href="artist/">Artists</a><br>
-<a href="venue/">Venues</a><br>
-<a href="gig/">Gigs</a><br>
-<a href="user/">Users</a><br>
+{% extends "base.html" %}
+
+{% block head %}
+<title>SydGig</title>
+{% endblock %}
+
+{% block header %}
+{{ super() }}
+{% endblock %}
+
+{% block content %}
+This is the homepage!
+{% endblock %}
+
+{% block footer %}
+{{ super() }}
+{% endblock %}

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<head>
+    {% block head %}
+    {% endblock %}
+</head>
+
+<body>
+    <div id="header">
+        <h1>SydGig</h1>
+        <ul id="header-menu">
+            <li><a href="/">Home</a></li>
+            <li><a href="/gig">Gigs</a></li>
+            <li><a href="/artist">Artists</a></li>
+            <li><a href="/venue">Venues</a></li>
+        </ul>
+        <hr>
+    </div>
+
+    <div id="content">
+        {% block content %}
+        {% endblock %}
+    </div>
+
+    <div id="footer">
+        {% block footer %}
+        <hr>
+        <p>&copy; SydGig</p>
+        {% endblock %}
+    </div>
+</body>
