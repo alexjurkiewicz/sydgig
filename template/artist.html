@@ -2,7 +2,7 @@
 
 <p><ul id="artistlist">
 	{% for artist in artists %}
-		<li><a href="/artist/{{artist.id}}/{{artist.name|quote_plus}}">{{artist.name}}</a></li>
+		<li><a href="/artist/{{artist.id}}/{{artist.name_slug}}">{{artist.name}}</a></li>
 	{% endfor %}
 	</ul>
 </p>

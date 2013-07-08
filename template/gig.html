@@ -2,7 +2,7 @@
 
 <p><ul id="giglist">
 	{% for gig in gigs %}
-        <li><a href="/gig/{{gig.id}}">{{gig.time_start}} @ {{gig.venue}}</a></li>
+    <li><a href="/gig/{{gig.id}}">{{gig.time_start}} @ {{gig.venue}} with {% for artist in gig.performers %}{{ artist.name }} {% endfor %}</a></li>
 	{% endfor %}
 	</ul>
 </p>
