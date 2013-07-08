@@ -62,7 +62,7 @@ def venue_info(id, name=None):
 def venue_add():
     name = request.form.get('name')
     address = request.form.get('address')
-    if name and address:
+    if name:
         model.add_venue(name, address)
         return redirect(url_for('venue'))
     else:

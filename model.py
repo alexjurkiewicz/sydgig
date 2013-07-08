@@ -136,7 +136,7 @@ def add_venue(name, address=None):
     s = database.Session()
     s.add(Venue(name, address))
     s.commit()
-    if not address:
+    if address in [None, u'']:
         tasks.update_venue_data.delay(name)
 
 def delete_venue(id):
