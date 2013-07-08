@@ -1,6 +1,6 @@
 from jinja2 import Environment, FileSystemLoader
 
-import urllib
+import urllib, time
 
 def guess_autoescape(template_name):
     if template_name is None or '.' not in template_name:
@@ -16,3 +16,4 @@ templates = Environment(loader=FileSystemLoader('template/'),
                         extensions=['jinja2.ext.autoescape'])
 
 templates.filters['quote_plus'] = quote_plus
+

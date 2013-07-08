@@ -2,11 +2,12 @@ from __future__ import division, absolute_import
 
 import datetime
 
+import template
+import model
+
 from flask import Flask, request, redirect, url_for
 app = Flask(__name__)
-
-from template import templates
-import model
+templates = template.templates
 
 @app.route("/")
 def index():
