@@ -11,15 +11,15 @@
 
 {% block content %}
 <h2>{{artist.name}}</h2>
-<p><img style="float: right;" src="{{ artist.image_url }}"></p>
+<p><img style="float: right; max-width: 340px; padding-left: 10px; padding-bottom: 10px;" src="{{ artist.image_url }}"></p>
+<h3>Gigs</h3>
+<p><ul>
+        {% for gig in artist.gigs_performed %}<li><a href="/gig/{{gig.id}}">{{gig.time_start|naturaltime}} at {{gig.venue.name}}</a></li>{% endfor %}
+</ul></p>
+<h3>About</h3>
 <p>
 {% autoescape false %}{{artist.bio}}{% endautoescape %}
 </p>
-<h3>Gigs</h3>
-<p><ul>
-    {% for gig in artist.gigs_performed %}<li><a href="/gig/{{gig.id}}">{{gig.time_start|naturaltime}} at {{gig.venue.name}}</a></li>{% endfor %}
-</ul></p>
-
 {% endblock %}
 
 {% block footer %}
