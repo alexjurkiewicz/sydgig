@@ -16,4 +16,11 @@ templates = Environment(loader=FileSystemLoader('template/'),
                         extensions=['jinja2.ext.autoescape'])
 
 templates.filters['quote_plus'] = quote_plus
+def date_year():
+    return int(time.strftime("%Y"))
+def date_month():
+    return time.strftime("%B")
+def date_day():
+    return int(time.strftime("%d")) # int() also strips the leading zero here
+templates.globals.update(date_year=date_year, date_month=date_month, date_day=date_day)
 
