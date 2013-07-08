@@ -22,7 +22,8 @@ def artist():
 @app.route('/artist/<int:id>/<name>')
 @app.route('/artist/<int:id>/')
 def artist_info(id, name=None):
-    return repr(controller.get_artist_by_id(id))
+    template = templates.get_template("artist_info.html")
+    return template.render(artist=controller.get_artist_by_id(id))
 
 @app.route('/artist/add/', methods=['GET', 'POST'])
 def artist_add():
