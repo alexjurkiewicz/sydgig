@@ -87,7 +87,8 @@ def gig():
 
 @app.route('/gig/<int:id>')
 def gig_info(id, name=None):
-    return repr(model.get_gig_by_id(id))
+    template = templates.get_template("gig_info.html")
+    return template.render(gig=model.get_gig_by_id(id))
 
 @app.route('/gig/add/', methods=['GET', 'POST'])
 def gig_add():
@@ -95,7 +96,7 @@ def gig_add():
         time_start = datetime.datetime.strptime(request.form.get('time_start'), '%Y-%m-%d %H:%M')
         venue = model.get_venue_by_name(request.form.get('venue'))
         if not venue:
-            model.add_venue(request.form.get('venue'), 'Unknown')
+            model.add_venue(request.form.get('venue'))
         venue = model.get_venue_by_name(request.form.get('venue'))
         artist_ids = []
         for artist in request.form.getlist('artists'):

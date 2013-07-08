@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block head %}
+<title>SydGig</title>
+{% endblock %}
+
+{% block header %}
+{{ super() }}
+{% endblock %}
+
+{% block content %}
+<h2>Gig Info</h2>
+<p>
+Who:
+<ul>
+    {% for artist in gig.performers %}
+    <li><a href="/artist/{{artist.id}}/{{artist.name_slug}}">{{artist.name}}</a></li>
+    {% endfor %}
+</ul>
+</p>
+When: {{ gig.time_start }}
+</p>
+<p>
+Where: <a href="/venue/{{ gig.venue.id }}/{{ gig.venue.name_slug }}">{{ gig.venue.name }}</a>, <a href="https://maps.google.com.au/maps?q={{gig.venue.address|quote_plus}}">{{gig.venue.address}}</a>
+</p>
+<p>
+<iframe width="425" height="350" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="https://maps.google.com.au/maps?f=q&amp;source=s_q&amp;hl=en&amp;geocode=&amp;q={{ gig.venue.address|quote_plus }}&amp;aq=&amp;ie=UTF8&amp;hnear=&amp;t=m&amp;iwloc=A&amp;output=embed"></iframe><br />
+</p>
+<p>
+
+<a href="..">All Gigs.</a><br>
+{% endblock %}
+
+{% block footer %}
+{{ super() }}
+{% endblock %}
