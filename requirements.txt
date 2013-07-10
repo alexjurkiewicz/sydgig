@@ -24,3 +24,13 @@ decorator==3.4.0
 # requests
 requests==1.2.3
 
+# humanize
+humanize==0.4
+
+# soundcloud
+fudge==1.0.3
+importlib==1.0.2
+ordereddict==1.1
+simplejson==3.3.0
+soundcloud==0.3.6
+
