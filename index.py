@@ -116,7 +116,10 @@ def gig_info(id, name=None):
 
 @app.route('/gig/add/', methods=['GET', 'POST'])
 def gig_add():
-    if request.method == 'POST' and all([ i in request.form for i in ['date', 'time_hour', 'time_min', 'time_ampm', 'venue', 'artists']]):
+    if request.method == 'GET':
+        template = templates.get_template("gig_add.html")
+        return template.render()
+    elif request.method == 'POST' and all([ i in request.form for i in ['date', 'time_hour', 'time_min', 'time_ampm', 'venue', 'artists']]):
 
         time_string = "{date} {time_hour}:{time_min} {time_ampm}".format(
                 date=request.form['date'],
@@ -149,8 +152,7 @@ def gig_add():
         model.add_gig(time_start, venue.id, artist_ids, name=request.form.get('name'))
         return redirect(url_for('gig'))
     else:
-        template = templates.get_template("gig_add.html")
-        return template.render()
+        abort(400)
 
 @app.route('/gig/delete/', methods=['GET', 'POST'])
 def gig_delete():
