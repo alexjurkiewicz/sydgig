@@ -6,14 +6,8 @@ from sqlalchemy.orm import relationship, backref
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
 
-#engine = create_engine('sqlite:///testdb.sqlite', echo=True)
-engine = create_engine('sqlite:///testdb.sqlite', echo=False)
+engine = create_engine('sqlite:///testdb.sqlite', echo=True)
 Base = declarative_base()
-
-gig_lineup = Table('gig_lineup', Base.metadata,
-                       Column('gig_id', Integer, ForeignKey('gigs.id')),
-                       Column('artist_id', Integer, ForeignKey('artists.id')),
-                       )
 
 gig_attendance = Table('gig_attendance', Base.metadata,
                        Column('gig_id', Integer, ForeignKey('gigs.id')),
@@ -63,7 +57,7 @@ class Gig(Base):
     venue_id = Column(Integer, ForeignKey('venues.id'))
     name = Column(String) # note: this is optional!
 
-    performers = relationship('Artist', secondary=gig_lineup, backref='gigs_performed')
+    performers = relationship('Performance', backref=backref("gig", uselist=False), cascade='delete')
     attendees = relationship('User', secondary=gig_attendance, backref='gigs_attended')
 
     def __init__(self, time_start, venue_id, name=None):
@@ -72,7 +66,7 @@ class Gig(Base):
         self.name = name
 
     def __repr__(self):
-        return '{Gig %s: %s: %s}' % (self.id, self.name if self.name else 'Untitled', ', '.join([i.name for i in self.performers]))
+        return '{Gig %s: %s%s}' % (self.id, (self.name + ': ') if self.name else '', ', '.join([i.artist.name for i in self.performers]))
 
     @property
     def pretty_time_start(self):
@@ -99,6 +93,13 @@ class Venue(Base):
     @property
     def name_slug(self):
         return util.slugify(self.name)
+
+class Performance(Base):
+    __tablename__ = 'gigperformers'
+    gig_id = Column(Integer, ForeignKey('gigs.id'), primary_key=True)
+    artist_id = Column(Integer, ForeignKey('artists.id'), primary_key=True)
+    play_order = Column(Integer)
+    artist = relationship("Artist", backref=backref("performances", cascade='delete'))
 
 Base.metadata.create_all(engine) 
 Session = sessionmaker(bind=engine)
