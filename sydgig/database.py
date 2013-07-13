@@ -1,4 +1,4 @@
-import util
+import sydgig.util as util
 
 from sqlalchemy import create_engine
 from sqlalchemy import Table, Column, ForeignKey, Integer, String, DateTime, UniqueConstraint

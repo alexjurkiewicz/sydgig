@@ -1,7 +1,8 @@
 import datetime
 
-import tasks, database
-from database import Artist, Gig, User, Venue
+import sydgig.tasks as tasks
+import sydgig.database as database
+from sydgig.database import Artist, Gig, User, Venue
 
 import sqlalchemy.orm
 

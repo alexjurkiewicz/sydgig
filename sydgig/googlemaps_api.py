@@ -1,7 +1,7 @@
 import requests, json, urllib
 
 API_KEY = 'AIzaSyA_z7C_7-ZzrMYDcJisKI6GrukMdFdxn3M'
-LOCATION = urllib.quote_plus('-33.867387%2C151.207629') # sydney, according to something i found on the internet
+LOCATION = urllib.quote_plus('-33.867387,151.207629') # sydney, according to something i found on the internet
 BASE_URL = 'https://maps.googleapis.com/maps/api/place/textsearch/json?sensor=false&key={apikey}&location={location}&radius=50000'
 
 def get_place_info(name):

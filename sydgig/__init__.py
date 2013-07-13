@@ -2,8 +2,8 @@ from __future__ import division, absolute_import
 
 import datetime, random, time
 
-import template
-import model
+import sydgig.template as template
+import sydgig.model as model
 
 from flask import Flask, request, redirect, url_for, abort, g
 app = Flask(__name__)
@@ -169,6 +169,3 @@ def gig_delete():
 def user():
     template = templates.get_template("user.html")
     return template.render()
-
-if __name__ == "__main__":
-    app.run(debug=True)

@@ -14,7 +14,7 @@ def quote_plus(value):
 def naturaltime(value):
     return humanize.naturaltime(value)
 
-templates = Environment(loader=FileSystemLoader('template/'),
+templates = Environment(loader=FileSystemLoader('sydgig/template/'),
                         autoescape=guess_autoescape,
                         extensions=['jinja2.ext.autoescape'])
 

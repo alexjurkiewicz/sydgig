@@ -1,7 +1,8 @@
 BROKER_URL = 'sqla+sqlite:///celerydb-tasks.sqlite'
 BACKEND_URL = 'sqla+sqlite:///celerydb-results.sqlite'
 
-import model, lastfm_api, googlemaps_api
+import sydgig.lastfm_api as lastfm_api
+import sydgig.googlemaps_api as googlemaps_api
 import os, requests
 
 from celery import Celery
@@ -17,6 +18,7 @@ celery.conf.CELERY_RESULT_DBURI = "sqlite:///celerydb-results.sqlite"
 @celery.task
 def update_artist_data(name):
     '''Given the name of an artist in the database, clean up their record'''
+    import sydgig.model as model
     original_record = model.get_artist_by_name(name)
     if original_record:
         info = lastfm_api.get_artist_info(name)
@@ -27,7 +29,7 @@ def update_artist_data(name):
 
         imgdata = requests.get(info.image['mega'], stream=True).raw.read()
         imgext = info.image['mega'].rsplit('.', 1)[-1]
-        localpath = os.path.join('static', 'artist_images', str(original_record.id) + '.' + imgext)
+        localpath = os.path.join('sydgig', 'static', 'artist_images', str(original_record.id) + '.' + imgext)
         with open(localpath, 'wb') as f:
             f.write(imgdata)
         image_url = '/static/artist_images/' + str(original_record.id) + '.' + imgext
@@ -39,6 +41,7 @@ def update_artist_data(name):
 @celery.task
 def update_venue_data(name):
     '''Given the name of a venue in the database, clean up its record'''
+    import sydgig.model as model
     original_record = model.get_venue_by_name(name)
     if not original_record:
         return "Couldn't update venue data for %s as no record matches that name!" % name
