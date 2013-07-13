@@ -116,7 +116,7 @@ def gig_info(id, name=None):
 
 @app.route('/gig/add/', methods=['GET', 'POST'])
 def gig_add():
-    if all([ i in request.form for i in ['date', 'time_hour', 'time_min', 'time_ampm', 'venue', 'artists']]):
+    if request.method == 'POST' and all([ i in request.form for i in ['date', 'time_hour', 'time_min', 'time_ampm', 'venue', 'artists']]):
 
         time_string = "{date} {time_hour}:{time_min} {time_ampm}".format(
                 date=request.form['date'],
