@@ -27,12 +27,11 @@ def index():
 
 @app.route('/about')
 def about():
-    vids = ( 'http://www.youtube.com/watch?v=M8XmoroZ3zo',
-            'http://www.youtube.com/watch?v=yBL3aKLZ6qY',
-            'http://www.youtube.com/watch?v=k6_G5PlEXdk',
-            'http://www.youtube.com/watch?v=jPv0K4--NFM',
-            'http://www.youtube.com/watch?v=ED6yVA_zw7A',
-            'http://www.youtube.com/watch?v=UeJQGvZQxqk')
+    vids = ( 'http://www.youtube.com/watch?v=M8XmoroZ3zo', # preatures - is this how you feel
+            'http://www.youtube.com/watch?v=yBL3aKLZ6qY', # coach bombay - take off
+            'http://www.youtube.com/watch?v=ED6yVA_zw7A', # client liaison @ golden plains
+            'http://www.youtube.com/watch&v=ic1DjIFDbeQ', # the presets - fall
+            )
     template = templates.get_template("about.html")
     return template.render(video=random.choice(vids))
 
