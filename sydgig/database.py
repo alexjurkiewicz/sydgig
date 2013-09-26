@@ -100,6 +100,13 @@ class Venue(Base):
     def name_slug(self):
         return util.slugify(self.name)
 
+#class ArtistURL(Base):
+    #__tablename__ = 'artisturls'
+    #id = Column(Integer, primary_key = True)
+    #url = Column(String)
+    #description = Column(String)
+    #artist_id = Column(Integer, ForeignKey('artists.id'))
+
 Base.metadata.create_all(engine) 
 Session = sessionmaker(bind=engine)
 session = Session()
