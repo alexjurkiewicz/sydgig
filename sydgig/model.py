@@ -68,13 +68,24 @@ def get_gigs(days_into_future=7, days_into_past=0):
 def get_gig_by_id(id):
     return database.Session().query(Gig).filter(Gig.id == id).one()
 
+def get_gig_calendar(weeks=4):
+    '''Return gigs starting from the most recent Monday for the next `weeks` weeks.'''
+    now = datetime.datetime.now()
+    #start_time = now - datetime.timedelta(days=now.weekday)
+    #start_time = datetime.datetime(start_time.year, start_time.month, start_time.day, 0, 0)
+    #end_time = now + datetime.timedelta(weeks=weeks, days=(6-now.weekday))
+    #end_time = datetime.datetime(end_time.year, end_time.month, end_time.day, 23, 59)
+    previous_days = now.weekday()
+    future_days = (7 * weeks) + (6 - now.weekday())
+    return get_gigs(days_into_future=future_days, days_into_past=previous_days)
+
+
 def add_gig(time_start, venue_id, artist_ids, name=None):
     s = database.Session()
     gig = Gig(time_start, venue_id, name=name)
     for id in artist_ids:
         try:
             artist = s.query(Artist).filter(Artist.id == id).one()
-            print '******', artist
             gig.performers.append(artist)
         except sqlalchemy.orm.exc.NoResultFound:
             pass
