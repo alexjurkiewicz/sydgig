@@ -44,23 +44,26 @@ def update_artist_by_id(id, name=None, bio=None, image_url=None):
     s.commit()
 
 # Gigs
-def get_gigs(future_only=True, group_by_day=False):
-    if future_only:
-        giglist = database.Session().query(Gig).filter(Gig.time_start > datetime.datetime.now()).all()
-    else:
-        giglist = database.Session().query(Gig).all()
-    if group_by_day:
-        gigs = {}
-        for gig in giglist:
-            time = gig.time_start
-            date = datetime.date(time.year, time.month, time.day)
-            if date not in gigs:
-                gigs[date] = [gig]
-            else:
-                gigs[date].append(gig)
-        return gigs
-    else:
-        return giglist
+def get_gigs(days_into_future=7, days_into_past=0):
+    '''Get all gigs matching the specified conditions. Today's gigs are always returned.
+    Time of day isn't taken into account (a search at 9pm will include gigs that started at 8pm)'''
+    # Generate datetime.datetime objects at the 00:00 of start day and 23:59 of end day
+    now = datetime.datetime.now()
+    start_time = now - datetime.timedelta(days=days_into_past)
+    end_time = now + datetime.timedelta(days=days_into_future)
+    start_day = datetime.datetime(start_time.year, start_time.month, start_time.day, 0, 0)
+    end_day = datetime.datetime(end_time.year, end_time.month, end_time.day, 23, 59)
+
+    giglist = database.Session().query(Gig).filter(Gig.time_start >= start_day, Gig.time_start <= end_day).all()
+    gigs = {}
+    for gig in giglist:
+        time = gig.time_start
+        date = datetime.date(time.year, time.month, time.day)
+        if date not in gigs:
+            gigs[date] = [gig]
+        else:
+            gigs[date].append(gig)
+    return gigs
 
 def get_gig_by_id(id):
     return database.Session().query(Gig).filter(Gig.id == id).one()
@@ -71,6 +74,7 @@ def add_gig(time_start, venue_id, artist_ids, name=None):
     for id in artist_ids:
         try:
             artist = s.query(Artist).filter(Artist.id == id).one()
+            print '******', artist
             gig.performers.append(artist)
         except sqlalchemy.orm.exc.NoResultFound:
             pass
