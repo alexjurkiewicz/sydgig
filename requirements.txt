@@ -1,22 +1,22 @@
 # sqlalchemy
-SQLAlchemy==0.8.2
+SQLAlchemy
 
 # flask, jinja
-Flask==0.10.1
-Jinja2==2.7
+Flask
+Jinja2
 
 # Celery
-celery==3.0.21
+celery
 
 # lastfm
-decorator==3.4.0
+decorator
 
 # requests
-requests==1.2.3
+requests
 
 # humanize
-humanize==0.4
+humanize
 
 # soundcloud
-soundcloud==0.3.6
+soundcloud
 
