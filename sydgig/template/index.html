@@ -5,15 +5,19 @@
 {% endblock %}
 
 {% block content %}
-This is the homepage!<br>
-Gigs:<br>
-{% for date in gigs|sort %}
-<h3>{{ date }}</h3>
-    <p><ul>
+<!-- gig list starts here -->
+{% for date_bunch in gigs|sort|batch(7) %}
+<div class="row"> <!-- start a new week row -->
+{% for date in date_bunch %}
+  <div class="col-sm-1" style="width: 14%">{{ date|simpledate }} <!-- start a new date cell -->
+    <ul class="list-unstyled">
     {% for gig in gigs[date] %}
-        <li><a href="/gig/{{gig.id}}">{{gig.name}}, {{gig.pretty_time_start}}</a> at {{gig.venue.name}} with {{ gig.performers|join(', ', attribute='name') }} </a></li>
+        <li><p class="calendar-text"><a href="/gig/{{gig.id}}">{{ gig.performers|join(', ', attribute='name') }}</a></p></li>
     {% endfor %}
-    </ul></p>
+    </ul>
+  </div> <!-- end date cell -->
+{% endfor %}
+</div> <!-- end week row -->
 {% endfor %}
 {% endblock %}
 
