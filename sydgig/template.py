@@ -1,6 +1,6 @@
 from jinja2 import Environment, FileSystemLoader
 
-import urllib, time, humanize
+import urllib, time, humanize, datetime
 
 def guess_autoescape(template_name):
     if template_name is None or '.' not in template_name:
@@ -31,5 +31,13 @@ def date_month():
     return time.strftime("%B")
 def date_day():
     return int(time.strftime("%d")) # int() also strips the leading zero here
-templates.globals.update(date_year=date_year, date_month=date_month, date_day=date_day)
+def date_today():
+    n = datetime.datetime.now()
+    #return datetime.datetime(n.year, n.month, n.day, 0, 0)
+    return datetime.date(n.year, n.month, n.day)
+def istoday(d):
+    '''return true if datetime d is the same day as today'''
+    n = datetime.datetime.now()
+    return d.year == n.year and d.month == n.month and d.day == n.day
+templates.globals.update(date_year=date_year, date_month=date_month, date_day=date_day, date_today=date_today, istoday=istoday)
 
