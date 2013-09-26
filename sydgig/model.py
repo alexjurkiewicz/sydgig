@@ -56,13 +56,16 @@ def get_gigs(days_into_future=7, days_into_past=0):
 
     giglist = database.Session().query(Gig).filter(Gig.time_start >= start_day, Gig.time_start <= end_day).all()
     gigs = {}
+    # Pre-populate keys for all dates in the given interval
+    i = start_day
+    while i < end_day:
+        gigs[datetime.date(i.year, i.month, i.day)] = []
+        i = i + datetime.timedelta(days=1)
+    # Add all gigs
     for gig in giglist:
         time = gig.time_start
         date = datetime.date(time.year, time.month, time.day)
-        if date not in gigs:
-            gigs[date] = [gig]
-        else:
-            gigs[date].append(gig)
+        gigs[date].append(gig)
     return gigs
 
 def get_gig_by_id(id):
