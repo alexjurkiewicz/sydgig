@@ -10,7 +10,7 @@
 <div class="row"> <!-- start a new week row -->
 {% for date in date_bunch %}
   <div class="col-sm-1" style="width: 14%">{{ date|simpledate }} <!-- start a new date cell -->
-    <ul class="list-unstyled">
+      <ul class="list-unstyled{% if date < date_today() %} calendar-past{% elif istoday(date) %} calendar-today{% endif %}">
     {% for gig in gigs[date] %}
         <li><p class="calendar-text"><a href="/gig/{{gig.id}}">{{ gig.performers|join(', ', attribute='name') }}</a></p></li>
     {% endfor %}
