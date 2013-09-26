@@ -13,8 +13,8 @@
     <p><ul>
     {% for gig in gigdates[date] %}
     <li><a href="/gig/{{gig.id}}">{{gig.name}}, {{gig.pretty_time_start}}</a> at {{gig.venue.name}} with {{ gig.performers|join(', ', attribute='name') }} </a></li>
-    </ul></p>
 	{% endfor %}
+    </ul></p>
 {% endfor %}
 </p>
 <a href="add">Add gig.</a><br>
