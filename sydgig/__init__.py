@@ -24,7 +24,7 @@ templates = template.templates
 @app.route("/")
 def index():
     template = templates.get_template("index.html")
-    return template.render()
+    return template.render(gigs=model.get_gig_calendar())
 
 @app.route('/about')
 def about():

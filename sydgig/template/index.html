@@ -5,7 +5,16 @@
 {% endblock %}
 
 {% block content %}
-This is the homepage!
+This is the homepage!<br>
+Gigs:<br>
+{% for date in gigs|sort %}
+<h3>{{ date }}</h3>
+    <p><ul>
+    {% for gig in gigs[date] %}
+        <li><a href="/gig/{{gig.id}}">{{gig.name}}, {{gig.pretty_time_start}}</a> at {{gig.venue.name}} with {{ gig.performers|join(', ', attribute='name') }} </a></li>
+    {% endfor %}
+    </ul></p>
+{% endfor %}
 {% endblock %}
 
 {% block footer %}
