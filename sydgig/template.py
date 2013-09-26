@@ -14,12 +14,17 @@ def quote_plus(value):
 def naturaltime(value):
     return humanize.naturaltime(value)
 
+def simpledate(value):
+    '''datetime -> 07/03'''
+    return value.strftime('%d/%m')
+
 templates = Environment(loader=FileSystemLoader('sydgig/template/'),
                         autoescape=guess_autoescape,
                         extensions=['jinja2.ext.autoescape'])
 
 templates.filters['quote_plus'] = quote_plus
 templates.filters['naturaltime'] = naturaltime
+templates.filters['simpledate'] = simpledate
 def date_year():
     return int(time.strftime("%Y"))
 def date_month():
