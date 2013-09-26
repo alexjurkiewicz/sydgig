@@ -75,6 +75,7 @@ class Gig(Base):
 
     @property
     def pretty_time_start(self):
+        '''Thursday 26 September 2013, 04:21 PM'''
         return self.time_start.strftime('%A %d %B %Y, %I:%M %p')
 
 class Venue(Base):
