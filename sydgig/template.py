@@ -16,7 +16,7 @@ def naturaltime(value):
 
 def simpledate(value):
     '''datetime -> 07/03'''
-    return value.strftime('%d/%m')
+    return value.strftime('%a ') + str(int(value.strftime('%d'))) # gets rid of leading 0
 
 templates = Environment(loader=FileSystemLoader('sydgig/template/'),
                         autoescape=guess_autoescape,
