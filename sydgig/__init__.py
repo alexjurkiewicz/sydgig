@@ -10,16 +10,16 @@ app = Flask(__name__)
 templates = template.templates
 
 # Page timer
-# XXX: Seems buggy
-#@app.before_request
-#def before_request():
-  #g.time_start = time.time()
-#@app.after_request
-#def after_request(response):
-    #diff = int((time.time() - g.time_start) * 1000)  # to get a time in ms
-    #if response.response and response.content_type.startswith("text/html") and response.status_code == 200:
-        #response.response[0] = response.response[0].replace('__EXECUTION_TIME__', str(diff))
-    #return response
+@app.before_request
+def before_request():
+  g.time_start = time.time()
+@app.after_request
+def after_request(response):
+    diff = int((time.time() - g.time_start) * 1000)  # to get a time in ms
+    if response.response and response.content_type.startswith("text/html") and response.status_code == 200:
+        response.response[0] = response.response[0].replace('__EXECUTION_TIME__', str(diff))
+        response.headers["content-length"] = len(response.response[0])
+    return response
 
 @app.route("/")
 def index():
