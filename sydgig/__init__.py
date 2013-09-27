@@ -73,3 +73,9 @@ def venue_info(id, name=None):
 def gig_info(id, name=None):
     template = templates.get_template("gig_info.html")
     return template.render(gig=model.get_gig_by_id(id))
+
+# Submit
+@app.route('/submit')
+def submit():
+    template = templates.get_template("submit.html")
+    return template.render()
