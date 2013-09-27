@@ -7,10 +7,15 @@
 <script type="text/javascript" src="/static/js/jquery-1.9.1.min.js"></script>
 <script type="text/javascript" src="/static/js/jquery-ui.min.js"></script>
 <script type="text/javascript">
-    function addArtistField(){
-        var newdiv = document.createElement('div');
-        newdiv.innerHTML = '<input type="text" name="artists">';
-        document.getElementById('gigAddArtists').appendChild(newdiv);
+    var artists = [ "Rainbow Chan", "Holly Throsby", "Housewives", "Gardland", "The Laurels", "Julia Why?", "Palms", "Yes I'm Leaving", "Songs", "Royal Headache", "The Preatures", "Royal Chant", "Unity Floors", "Matt Banham", "Ted Danson with Wolves", "Lowlifes", "Dereb The Ambassador", "Infinity Broke", "Sophie Hutchings", "Day Ravies", "Takadimi", "Lines of Flight", "Hermitude", "The Ocean Party", "Family", "Collarbones", "Cosmo's Midnight", "Gnome", "I'lls", "Oily Boys", "The Wednesday Night", "Jordan Leser", "Destiny 3000" ]
+    function addArtistField() {
+        /* <input class="form-control" type="text" name="artists" placeholder="The Drones"> */
+        var newinput = document.createElement('input');
+        newinput.className = "form-control";
+        newinput.type = "text";
+        newinput.name = "artists";
+        newinput.placeholder = artists[Math.floor(Math.random() * artists.length)];
+        document.getElementById('gigAddArtists').appendChild(newinput);
     }
     $(function() {
         $( "#datepicker" ).datepicker({ dateFormat: "DD d MM, yy" });
@@ -19,12 +24,20 @@
 {% endblock %}
 
 {% block content %}
+<div class="container" style="max-width: 500px">
 <h2>Submit a new gig</h2>
-<form action="" method="post" id="gig-add">
-    <p>Name (optional): <input type="text" name="name" /></p>
-    <p>Date: <input type="text" id="datepicker" name="date" /></p>
-    <p>Time:
-        <select name="time_hour" style="width: 50px;">
+<form role="form" action="" method="post" id="gig-add">
+    <div class="form-group">
+        <label for="name">Name (optional)</label>
+        <input class="form-control" type="text" name="name" placeholder="EP Launch">
+    </div>
+    <div class="form-group">
+        <label for="date">Date</label>
+        <input class="form-control" type="text" id="datepicker" name="date" placeholder="{{ date_today()|longdate }}">
+    </div>
+    <div class="form-group">
+        <label>Time</label><br>
+        <select class="form-control" name="time_hour" style="display: inline; width: 50px;">
             <option value="0">0</option>
             <option value="1">1</option>
             <option value="2">2</option>
@@ -39,26 +52,38 @@
             <option value="11">11</option>
             <option value="12">12</option>
         </select>
-        <select name="time_min" style="width: 50px;">
+        <select class="form-control" name="time_min" style="display: inline; width: 50px;">
             <option value="00">00</option>
             <option value="15">15</option>
             <option value="30" selected="selected">30</option>
             <option value="45">45</option>
         </select>
-        <select name="time_ampm" style="width: 75px;">
+        <select class="form-control" name="time_ampm" style="display: inline; width: 75px;">
             <option value="am">am</option>
             <option value="pm" selected="selected">pm</option>
         </select>
-
-    <p>Venue: <input type="text" name="venue"></p>
-
-    <div id="gigAddArtists">
-        Artists playing:<br>
-        <input type="text" name="artists"><br>
     </div>
-    <a href="#" onclick="addArtistField();">Add another artist.</a>
-    <p><input type="submit" value="Add gig"/></p>
+
+    <div class="form-group">
+        <label>Venue</label>
+        <input class="form-control" type="text" name="venue" placeholder="The Union">
+    </div>
+
+    <div id="gigAddArtists" class="form-group">
+        <label>Artists playing</label>
+        <input class="form-control" type="text" name="artists" placeholder="The Drones">
+    </div>
+    <button type="button" class="btn btn-default btn-sm" onclick="addArtistField();">
+        <span class="glyphicon glyphicon-plus"></span> Add another artist.
+    </button>
+
+    <br>
+    <br>
+    <br>
+    <button type="submit" class="btn btn-primary">Submit</button>
+
 </form>
+</div>
 {% endblock %}
 
 {% block footer %}
