@@ -71,7 +71,7 @@ def get_gigs(days_into_future=7, days_into_past=0):
 def get_gig_by_id(id):
     return database.Session().query(Gig).filter(Gig.id == id).one()
 
-def get_gig_calendar(weeks=4):
+def get_gig_calendar(weeks=3):
     '''Return gigs starting from the most recent Monday for the next `weeks` weeks.'''
     now = datetime.datetime.now()
     #start_time = now - datetime.timedelta(days=now.weekday)

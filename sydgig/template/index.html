@@ -6,19 +6,26 @@
 
 {% block content %}
 <!-- gig list starts here -->
+<div class="table-responsive">
+<table class="table table-bordered calendar-table">
 {% for date_bunch in gigs|sort|batch(7) %}
-<div class="row"> <!-- start a new week row -->
-{% for date in date_bunch %}
-  <div class="col-sm-1 calendar-day{% if date < date_today() %} calendar-past{% elif istoday(date) %} calendar-today{% endif %}">{{ date|simpledate }} <!-- start a new date cell -->
-    <ul class="list-unstyled">
-    {% for gig in gigs[date] %}
-      <li><p class="calendar-text"><a href="/gig/{{gig.id}}">{{ gig.performers|join(', ', attribute='name') }}</a></p></li>
+  <tr class="calendar-row">
+    {% for date in date_bunch %}
+    <td class="calendar-day {% if date < date_today() %}calendar-past{% elif istoday(date) %}calendar-today{% else %}calendar-future{% endif %}">
+      {% if date >= date_today() %}
+      <p>{{ date|simpledate }}</p>
+      <ul class="list-unstyled">
+      {% for gig in gigs[date] %}
+        <li><p class="calendar-text"><a href="/gig/{{gig.id}}">{{ gig.performers|join(', ', attribute='name') }}</a></p></li>
+      {% endfor %}
+      {% endif %}
+      </ul>
+    </td>
     {% endfor %}
-    </ul>
-  </div> <!-- end date cell -->
-{% endfor %}
-</div> <!-- end week row -->
-{% endfor %}
+  </tr>
+  {% endfor %}
+</table>
+</div>
 {% endblock %}
 
 {% block footer %}

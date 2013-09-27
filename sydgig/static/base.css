@@ -12,19 +12,26 @@ body {
     margin: 30px 0;
 }
 
-/* Calendar stuff */
+/* Calendar */
+.calendar-table>tbody>tr>td {
+    border: 3px solid #fff;
+}
 .calendar-text {
     font-size: 12px;
 }
+.calendar-row {
+    height: 100px;
+}
 .calendar-day {
     width: 14%;
-    border: 1px solid;
-    min-height: 150px;
-    margin-bottom: 15px;
+    max-width: 150px;
+    height: 100px;
 }
 .calendar-past {
-    background-color: #DDD;
 }
 .calendar-today {
-    background-color: black;
+    background-color: #dff0d8;
+}
+.calendar-future {
+    background-color: #f0f0f0;
 }
