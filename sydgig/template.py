@@ -15,8 +15,13 @@ def naturaltime(value):
     return humanize.naturaltime(value)
 
 def simpledate(value):
-    '''datetime -> 07/03'''
+    '''datetime -> Sat 3'''
     return value.strftime('%a ') + str(int(value.strftime('%d'))) # gets rid of leading 0
+
+def longdate(value):
+    '''datetime -> Friday 6 September, 2013'''
+    print value
+    return value.strftime('%A %d %B, %Y')
 
 templates = Environment(loader=FileSystemLoader('sydgig/template/'),
                         autoescape=guess_autoescape,
@@ -25,6 +30,7 @@ templates = Environment(loader=FileSystemLoader('sydgig/template/'),
 templates.filters['quote_plus'] = quote_plus
 templates.filters['naturaltime'] = naturaltime
 templates.filters['simpledate'] = simpledate
+templates.filters['longdate'] = longdate
 def date_year():
     return int(time.strftime("%Y"))
 def date_month():
