@@ -18,7 +18,7 @@ Who:
 When: {{gig.pretty_time_start}} ({{ gig.time_start|naturaltime }})
 </p>
 <p>
-Where: <a href="/venue/{{ gig.venue.id }}/{{ gig.venue.name_slug }}">{{ gig.venue.name }}</a>, <a href="https://maps.google.com.au/maps?q={% if gig.venue.address %}{{gig.venue.address|quote_plus}}{% else %}{{ gig.venue.name|quote_plus}}{% endif %}">{{gig.venue.address}}</a>
+Where: <a href="/venue/{{ gig.venue.id }}/{{ gig.venue.name_slug }}">{{ gig.venue.name }}</a> <a href="https://maps.google.com.au/maps?q={% if gig.venue.address %}{{gig.venue.address|quote_plus}}{% else %}{{ gig.venue.name|quote_plus}}{% endif %}">{% if gig.venue.address != gig.venue.name %}{{gig.venue.address}}{% else %}(view on google maps){% endif %}</a>
 </p>
 <p>
 <iframe width="425" height="350" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="https://maps.google.com.au/maps?f=q&amp;source=s_q&amp;hl=en&amp;geocode=&amp;q={{ gig.venue.name|quote_plus }},%20{{ gig.venue.address|quote_plus }}&amp;aq=&amp;ie=UTF8&amp;hnear=&amp;t=m&amp;iwloc=A&amp;output=embed"></iframe>
