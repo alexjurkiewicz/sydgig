@@ -26,6 +26,24 @@ def index():
     template = templates.get_template("index.html")
     return template.render(gigs=model.get_gig_calendar())
 
+@app.errorhandler(404)
+def page_not_found(e):
+    template = templates.get_template("404.html")
+    response = template.render()
+    # after_request handlers aren't run with the error handler, so calculate generation time here
+    diff = int((time.time() - g.time_start) * 1000)  # to get a time in ms
+    response = response.replace('__EXECUTION_TIME__', str(diff))
+    return response, 404
+
+@app.errorhandler(500)
+def page_not_found(e):
+    template = templates.get_template("500.html")
+    response = template.render()
+    # after_request handlers aren't run with the error handler, so calculate generation time here
+    diff = int((time.time() - g.time_start) * 1000)  # to get a time in ms
+    response = response.replace('__EXECUTION_TIME__', str(diff))
+    return response, 500
+
 @app.route('/about')
 def about():
     vids = ( 'http://www.youtube.com/watch?v=M8XmoroZ3zo', # preatures - is this how you feel
