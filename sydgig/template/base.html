@@ -21,9 +21,8 @@
                 <li {% if id == active_page %}class="active"{% endif %}><a href="{{ href }}">{{ caption }}</a></li>
                 {% endfor %}
             </ul>
-            <a href="/"><h1>SydGig</h1></a>
+            <div class="page-header"><a href="/"><h1>SydGig <small>Sydney Gigs</small></h1></a></div>
         </div>
-        <hr>
 
         <div id="content">
             {% block content %}
