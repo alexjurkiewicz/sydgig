@@ -7,7 +7,14 @@
 <script type="text/javascript" src="/static/js/jquery-1.9.1.min.js"></script>
 <script type="text/javascript" src="/static/js/jquery-ui.min.js"></script>
 <script type="text/javascript">
+    var names = [ "", "", "", "", "", "Album Launch", "Fitz Fest", "OusideIn Festival", "Ears Have Ears #4", "Europe tour farewell party" ]
     var artists = [ "Rainbow Chan", "Holly Throsby", "Housewives", "Gardland", "The Laurels", "Julia Why?", "Palms", "Yes I'm Leaving", "Songs", "Royal Headache", "The Preatures", "Royal Chant", "Unity Floors", "Matt Banham", "Ted Danson with Wolves", "Lowlifes", "Dereb The Ambassador", "Infinity Broke", "Sophie Hutchings", "Day Ravies", "Takadimi", "Lines of Flight", "Hermitude", "The Ocean Party", "Family", "Collarbones", "Cosmo's Midnight", "Gnome", "I'lls", "Oily Boys", "The Wednesday Night", "Jordan Leser", "Destiny 3000" ]
+    var venues = [ "Goodgod Small Club", "The Union", "Brighton Up", "Oxford Art Factory", "Camelot", "The Standard", "Upstairs Beresford", "Paddington Uniting Church", "Cafe Church Space", "107 Projects", "Lamps", "505s", "Frankie's", "Green Room Lounge", "Factory Floor", "The Vanguard", "Newtown Town Hall", "Metro Theatre", "The Enmore Theatre", "Petersham Bowls Club", "Marrickville Bowls Club", "Carriageworks", "The Annandale Hotel", "The Factory Theatre", "The Square", "Black Wire" ]
+    $(document).ready(function(){
+        document.getElementById('name-input').placeholder = names[Math.floor(Math.random() * names.length)];
+        document.getElementById('first-artist-input').placeholder = artists[Math.floor(Math.random() * artists.length)];
+        document.getElementById('venue-input').placeholder = venues[Math.floor(Math.random() * venues.length)];
+    })
     function addArtistField() {
         /* <input class="form-control" type="text" name="artists" placeholder="The Drones"> */
         var newinput = document.createElement('input');
@@ -26,11 +33,7 @@
 {% block content %}
 <div class="container" style="max-width: 500px">
 <h2>Submit a new gig</h2>
-<form role="form" action="" method="post" id="gig-add">
-    <div class="form-group">
-        <label for="name">Name (optional)</label>
-        <input class="form-control" type="text" name="name" placeholder="EP Launch">
-    </div>
+<form role="form" action="/takesubmit" method="post" id="gig-add">
     <div class="form-group">
         <label for="date">Date</label>
         <input class="form-control" type="text" id="datepicker" name="date" placeholder="{{ date_today()|longdate }}">
@@ -65,21 +68,24 @@
     </div>
 
     <div class="form-group">
-        <label>Venue</label>
-        <input class="form-control" type="text" name="venue" placeholder="The Union">
+        <label for="venue">Venue</label>
+        <input class="form-control" type="text" name="venue" id="venue-input">
     </div>
 
     <div id="gigAddArtists" class="form-group">
-        <label>Artists playing</label>
-        <input class="form-control" type="text" name="artists" placeholder="The Drones">
+        <label for "artists">Artists playing</label>
+        <input class="form-control" type="text" name="artists" id="first-artist-input">
     </div>
     <button type="button" class="btn btn-default btn-sm" onclick="addArtistField();">
         <span class="glyphicon glyphicon-plus"></span> Add another artist.
     </button>
+    <br>
+    <br>
+    <div class="form-group">
+        <label for="gigname">Name (optional)</label>
+        <input class="form-control" type="text" name="gigname" id="name-input">
+    </div>
 
-    <br>
-    <br>
-    <br>
     <button type="submit" class="btn btn-primary">Submit</button>
 
 </form>
