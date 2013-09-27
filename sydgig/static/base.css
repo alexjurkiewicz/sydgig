@@ -16,10 +16,15 @@ body {
 .calendar-text {
     font-size: 12px;
 }
-
+.calendar-day {
+    width: 14%;
+    border: 1px solid;
+    min-height: 150px;
+    margin-bottom: 15px;
+}
 .calendar-past {
     background-color: #DDD;
 }
 .calendar-today {
-    background-color: red;
+    background-color: black;
 }
