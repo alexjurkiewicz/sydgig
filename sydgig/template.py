@@ -20,7 +20,6 @@ def simpledate(value):
 
 def longdate(value):
     '''datetime -> Friday 6 September, 2013'''
-    print value
     return value.strftime('%A %d %B, %Y')
 
 templates = Environment(loader=FileSystemLoader('sydgig/template/'),
