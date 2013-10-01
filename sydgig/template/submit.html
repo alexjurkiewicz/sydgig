@@ -20,6 +20,7 @@
         newinput.className = "artist-input form-control";
         newinput.type = "text";
         newinput.name = "artists";
+        newinput.tabIndex = "3";
         newinput.placeholder = artists[Math.floor(Math.random() * artists.length)];
         document.getElementById('gigAddArtists').appendChild(newinput);
         newinput.focus();
@@ -36,64 +37,91 @@
 <form role="form" action="/takesubmit" method="post" id="gig-add">
     <div class="form-group">
         <label for="date">Date</label>
-        <input class="form-control" type="text" id="datepicker" name="date" placeholder="{{ date_today()|longdate }}" value="{{ date_today()|longdate }}">
+        <input tabindex="1" class="form-control" type="text" id="datepicker" name="date" placeholder="{{ date_today()|longdate }}" value="{{ date_today()|longdate }}">
         <!-- <div name="date" id="datepicker"></div> -->
     </div>
     <div class="form-group">
         <label for="time">Time</label><br>
-        <select class="form-control" name="time" style="display: inline;">
-            {# {% for hour in ['00','01','02','03','04','05','06','07','08','09','10','11'] %}
-            {% for min in ['00', '30'] %}
-            <option value="{{ hour }}:{{ min }}"{% if hour == '08' and min == '30' %} selected="selected"{% endif %}>{{ hour }}:{{ min }}</option>
-            {% endfor %}
-            {% endfor %} #}
-            <option value="00:00">00:00</option>
-            <option value="00:30">00:30</option>
-            <option value="01:00">01:00</option>
-            <option value="01:30">01:30</option>
-            <option value="02:00">02:00</option>
-            <option value="02:30">02:30</option>
-            <option value="03:00">03:00</option>
-            <option value="03:30">03:30</option>
-            <option value="04:00">04:00</option>
-            <option value="04:30">04:30</option>
-            <option value="05:00">05:00</option>
-            <option value="05:30">05:30</option>
-            <option value="06:00">06:00</option>
-            <option value="06:30">06:30</option>
-            <option value="07:00">07:00</option>
-            <option value="07:30">07:30</option>
-            <option value="08:00">08:00</option>
-            <option value="08:30" selected="selected">08:30</option>
-            <option value="09:00">09:00</option>
-            <option value="09:30">09:30</option>
-            <option value="10:00">10:00</option>
-            <option value="10:30">10:30</option>
-            <option value="11:00">11:00</option>
-            <option value="11:30">11:30</option>
+        <select tabindex="2" class="form-control" name="time" style="display: inline;">
+            {# {% for ampm in [ 'am', 'pm' ] -%}
+            {% for hour in ['12','1','2','3','4','5','6','7','8','9','10','11'] -%}
+            {% for min in ['00', '30'] -%}
+            <option value="{{ hour }}:{{ min }} {{ ampm }}">{{ hour }}:{{ min }} {{ ampm }}</option>
+            {% endfor -%}
+            {% endfor -%}
+            {% endfor -%} #}
+            <option value="00:00">12:00 am</option>
+            <option value="00:30">12:30 am</option>
+            <option value="1:00">1:00 am</option>
+            <option value="1:30">1:30 am</option>
+            <option value="2:00">2:00 am</option>
+            <option value="2:30">2:30 am</option>
+            <option value="3:00">3:00 am</option>
+            <option value="3:30">3:30 am</option>
+            <option value="4:00">4:00 am</option>
+            <option value="4:30">4:30 am</option>
+            <option value="5:00">5:00 am</option>
+            <option value="5:30">5:30 am</option>
+            <option value="6:00">6:00 am</option>
+            <option value="6:30">6:30 am</option>
+            <option value="7:00">7:00 am</option>
+            <option value="7:30">7:30 am</option>
+            <option value="8:00">8:00 am</option>
+            <option value="8:30">8:30 am</option>
+            <option value="9:00">9:00 am</option>
+            <option value="9:30">9:30 am</option>
+            <option value="10:00">10:00 am</option>
+            <option value="10:30">10:30 am</option>
+            <option value="11:00">11:00 am</option>
+            <option value="11:30">11:30 am</option>
+            <option value="12:00">12:00 pm</option>
+            <option value="12:30">12:30 pm</option>
+            <option value="13:00">1:00 pm</option>
+            <option value="13:30">1:30 pm</option>
+            <option value="14:00">2:00 pm</option>
+            <option value="14:30">2:30 pm</option>
+            <option value="15:00">3:00 pm</option>
+            <option value="15:30">3:30 pm</option>
+            <option value="16:00">4:00 pm</option>
+            <option value="16:30">4:30 pm</option>
+            <option value="17:00">5:00 pm</option>
+            <option value="17:30">5:30 pm</option>
+            <option value="18:00">6:00 pm</option>
+            <option value="18:30">6:30 pm</option>
+            <option value="19:00">7:00 pm</option>
+            <option value="19:30">7:30 pm</option>
+            <option value="20:00">8:00 pm</option>
+            <option value="20:30" selected="selected">8:30 pm</option>
+            <option value="21:00">9:00 pm</option>
+            <option value="21:30">9:30 pm</option>
+            <option value="22:00">10:00 pm</option>
+            <option value="22:30">10:30 pm</option>
+            <option value="23:00">11:00 pm</option>
+            <option value="23:30">11:30 pm</option>
         </select>
-    </div>
-
-    <div class="form-group">
-        <label for="venue">Where?</label>
-        <input class="form-control" type="text" name="venue" id="venue-input">
     </div>
 
     <div id="gigAddArtists" class="form-group">
         <label for "artists">Who?</label>
-        <input class="artist-input form-control" type="text" name="artists" id="first-artist-input">
+        <input tabindex="3" class="artist-input form-control" type="text" name="artists" id="first-artist-input">
     </div>
-    <button type="button" class="btn btn-default btn-sm" onclick="addArtistField();">
+    <button tabindex="4" type="button" class="btn btn-default btn-sm" onclick="addArtistField();">
         <span class="glyphicon glyphicon-plus"></span> Add another artist.
     </button>
     <br>
     <br>
+
     <div class="form-group">
-        <label for="gigname">Gig Name? (optional)</label>
-        <input class="form-control" type="text" name="gigname" id="name-input">
+        <label for="venue">Where?</label>
+        <input tabindex="5" class="form-control" type="text" name="venue" id="venue-input">
     </div>
 
-    <button type="submit" class="btn btn-primary">Looks Good!</button>
+    <div class="form-group">
+        <label for="gigname">Gig Name? (optional)</label>
+        <input tabindex="6" class="form-control" type="text" name="gigname" id="name-input">
+    </div>
+
+    <button tabindex="7" type="submit" class="btn btn-primary">Looks Good!</button>
 
 </form>
 </div>
