@@ -35,44 +35,51 @@
 <form role="form" action="/takesubmit" method="post" id="gig-add">
     <div class="form-group">
         <label for="date">Date</label>
-        <input class="form-control" type="text" id="datepicker" name="date" placeholder="{{ date_today()|longdate }}">
+        <input class="form-control" type="text" id="datepicker" name="date" placeholder="{{ date_today()|longdate }}" value="{{ date_today()|longdate }}">
+        <!-- <div name="date" id="datepicker"></div> -->
     </div>
     <div class="form-group">
-        <label>Time</label><br>
-        <select class="form-control" name="time_hour" style="display: inline; width: 50px;">
-            <option value="0">0</option>
-            <option value="1">1</option>
-            <option value="2">2</option>
-            <option value="3">3</option>
-            <option value="4">4</option>
-            <option value="5">5</option>
-            <option value="6">6</option>
-            <option value="7">7</option>
-            <option value="8" selected="selected">8</option>
-            <option value="9">9</option>
-            <option value="10">10</option>
-            <option value="11">11</option>
-            <option value="12">12</option>
-        </select>
-        <select class="form-control" name="time_min" style="display: inline; width: 50px;">
-            <option value="00">00</option>
-            <option value="15">15</option>
-            <option value="30" selected="selected">30</option>
-            <option value="45">45</option>
-        </select>
-        <select class="form-control" name="time_ampm" style="display: inline; width: 75px;">
-            <option value="am">am</option>
-            <option value="pm" selected="selected">pm</option>
+        <label for="time">Time</label><br>
+        <select class="form-control" name="time" style="display: inline;">
+            {# {% for hour in ['00','01','02','03','04','05','06','07','08','09','10','11'] %}
+            {% for min in ['00', '30'] %}
+            <option value="{{ hour }}:{{ min }}"{% if hour == '08' and min == '30' %} selected="selected"{% endif %}>{{ hour }}:{{ min }}</option>
+            {% endfor %}
+            {% endfor %} #}
+            <option value="00:00">00:00</option>
+            <option value="00:30">00:30</option>
+            <option value="01:00">01:00</option>
+            <option value="01:30">01:30</option>
+            <option value="02:00">02:00</option>
+            <option value="02:30">02:30</option>
+            <option value="03:00">03:00</option>
+            <option value="03:30">03:30</option>
+            <option value="04:00">04:00</option>
+            <option value="04:30">04:30</option>
+            <option value="05:00">05:00</option>
+            <option value="05:30">05:30</option>
+            <option value="06:00">06:00</option>
+            <option value="06:30">06:30</option>
+            <option value="07:00">07:00</option>
+            <option value="07:30">07:30</option>
+            <option value="08:00">08:00</option>
+            <option value="08:30" selected="selected">08:30</option>
+            <option value="09:00">09:00</option>
+            <option value="09:30">09:30</option>
+            <option value="10:00">10:00</option>
+            <option value="10:30">10:30</option>
+            <option value="11:00">11:00</option>
+            <option value="11:30">11:30</option>
         </select>
     </div>
 
     <div class="form-group">
-        <label for="venue">Venue</label>
+        <label for="venue">Where?</label>
         <input class="form-control" type="text" name="venue" id="venue-input">
     </div>
 
     <div id="gigAddArtists" class="form-group">
-        <label for "artists">Artists playing</label>
+        <label for "artists">Who?</label>
         <input class="form-control" type="text" name="artists" id="first-artist-input">
     </div>
     <button type="button" class="btn btn-default btn-sm" onclick="addArtistField();">
@@ -81,7 +88,7 @@
     <br>
     <br>
     <div class="form-group">
-        <label for="gigname">Name (optional)</label>
+        <label for="gigname">Gig Name? (optional)</label>
         <input class="form-control" type="text" name="gigname" id="name-input">
     </div>
 
