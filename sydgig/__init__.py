@@ -44,6 +44,15 @@ def page_not_found(e):
     response = response.replace('__EXECUTION_TIME__', str(diff))
     return response, 500
 
+@app.errorhandler(400)
+def bad_request(e):
+    template = templates.get_template("400.html")
+    response = template.render()
+    # after_request handlers aren't run with the error handler, so calculate generation time here
+    diff = int((time.time() - g.time_start) * 1000)  # to get a time in ms
+    response = response.replace('__EXECUTION_TIME__', str(diff))
+    return response, 400
+
 @app.route('/about')
 def about():
     vids = ( 'http://www.youtube.com/watch?v=M8XmoroZ3zo', # preatures - is this how you feel
