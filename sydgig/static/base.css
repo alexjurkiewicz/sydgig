@@ -40,3 +40,33 @@ body {
 .artist-input {
     margin-bottom: 1rem;
 }
+
+/* Gig submission date picker */
+.ui-datepicker .ui-datepicker-header .ui-datepicker-next:before,
+.ui-datepicker .ui-datepicker-header .ui-datepicker-prev:before {
+    /* these values are from the bootstrap glyphicon class */
+    position: relative;
+    top: 1px;
+    display: inline-block;
+    font-family: 'Glyphicons Halflings';
+    -webkit-font-smoothing: antialiased;
+    font-style: normal;
+    font-weight: normal;
+    margin-left: 4px; /* jqueryui required spacing */
+}
+
+.ui-datepicker .ui-datepicker-header .ui-datepicker-next:before {
+    content: "\e080";
+}
+
+.ui-datepicker .ui-datepicker-header .ui-datepicker-prev:before {
+    content: "\e079";
+}
+
+.ui-datepicker .ui-datepicker-calendar .ui-datepicker-current-day a {
+    background: none;
+    border-color: #68f030; /* dff0d8 + saturation */
+}
+.ui-datepicker .ui-datepicker-calendar .ui-datepicker-current-day {
+    background: #dff0d8;
+}

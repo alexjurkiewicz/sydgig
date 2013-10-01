@@ -24,7 +24,7 @@
         document.getElementById('gigAddArtists').appendChild(newinput);
     }
     $(function () {
-        $("#datepicker").datepicker({ dateFormat: "DD d MM, yy" });
+        $("#datepicker").datepicker({ dateFormat: "DD d MM, yy", firstDay: 1, minDate: 0, maxDate: 180, showOtherMonths: true, selectOtherMonths: true, });
     });
 </script>
 {% endblock %}
