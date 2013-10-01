@@ -88,3 +88,25 @@ def gig_info(id, name=None):
 def submit():
     template = templates.get_template("submit.html")
     return template.render()
+
+# /submit posts here
+@app.route('/takesubmit', methods=['POST'])
+def takesubmit():
+    time_start = time.strptime("%s %s" % (request.form['date'], request.form['time']), '%A %d %B, %Y %H:%M')
+    time_start = datetime.datetime.fromtimestamp(time.mktime(time_start))
+    venue = request.form['venue']
+    artists = request.form.getlist('artists')
+    gigname = request.form['gigname']
+    if not venue or not artists:
+        abort(400)
+
+    if not model.get_venue_by_name(venue):
+        model.add_venue(venue)
+    venue_id = model.get_venue_by_name(venue).id
+    for artist in artists:
+        if not model.get_artist_by_name(artist):
+            model.add_artist(artist)
+    artist_ids = [model.get_artist_by_name(artist).id for artist in artists]
+    model.add_gig(time_start, venue_id, artist_ids, name=gigname)
+
+    return redirect(url_for('index'))
