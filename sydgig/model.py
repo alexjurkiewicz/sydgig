@@ -2,7 +2,7 @@ import datetime
 
 import sydgig.tasks as tasks
 import sydgig.database as database
-from sydgig.database import Artist, Gig, User, Venue
+from sydgig.database import Artist, Gig, Venue
 
 import sqlalchemy.orm
 
@@ -119,41 +119,6 @@ def delete_artist_from_gig(gig_id, artist_id):
     s.add(gig)
     s.commit()
         
-def add_user_to_gig(gig_id, user_id):
-    s = database.Session()
-    gig = s.query(Gig).filter(Gig.id == id).one()
-    user = s.query(User).filter(User.id == id).one()
-    gig.attendees.append(user)
-    s.add(gig)
-    s.commit()
-
-def delete_user_from_gig(gig_id, user_id):
-    s = database.Session()
-    gig = s.query(Gig).filter(Gig.id == id).one()
-    user = s.query(User).filter(User.id == id).one()
-    idx = gig.attendees.index(user)
-    del(gig.performers[idx])
-    s.add(gig)
-    s.commit()
-
-# Users
-def get_users():
-    return database.Session().query(User).all()
-
-def get_user_by_id(id):
-    return database.Session().query(User).filter(User.id == id).one()
-
-def add_user(name):
-    s = database.Session()
-    s.add(User(name))
-    s.commit()
-
-def delete_user(id):
-    s = database.Session()
-    user = s.query(User).filter(User.id == id).one()
-    s.delete(user)
-    s.commit()
-
 # Venues
 def get_venues():
     return database.Session().query(Venue).all()
