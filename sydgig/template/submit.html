@@ -22,6 +22,7 @@
         newinput.name = "artists";
         newinput.placeholder = artists[Math.floor(Math.random() * artists.length)];
         document.getElementById('gigAddArtists').appendChild(newinput);
+        newinput.focus();
     }
     $(function () {
         $("#datepicker").datepicker({ dateFormat: "DD d MM, yy", firstDay: 1, minDate: 0, maxDate: 180, showOtherMonths: true, selectOtherMonths: true, });
