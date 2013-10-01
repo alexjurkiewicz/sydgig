@@ -17,7 +17,7 @@
     });
     function addArtistField() {
         var newinput = document.createElement('input');
-        newinput.className = "form-control";
+        newinput.className = "artist-input form-control";
         newinput.type = "text";
         newinput.name = "artists";
         newinput.placeholder = artists[Math.floor(Math.random() * artists.length)];
@@ -80,7 +80,7 @@
 
     <div id="gigAddArtists" class="form-group">
         <label for "artists">Who?</label>
-        <input class="form-control" type="text" name="artists" id="first-artist-input">
+        <input class="artist-input form-control" type="text" name="artists" id="first-artist-input">
     </div>
     <button type="button" class="btn btn-default btn-sm" onclick="addArtistField();">
         <span class="glyphicon glyphicon-plus"></span> Add another artist.

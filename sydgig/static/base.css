@@ -35,3 +35,8 @@ body {
 .calendar-future {
     background-color: #f0f0f0;
 }
+
+/* Gig submission artist field */
+.artist-input {
+    margin-bottom: 1rem;
+}
