@@ -23,7 +23,8 @@ def add_artist(name, bio=None):
     s = database.Session()
     s.add(Artist(name, bio))
     s.commit()
-    tasks.update_artist_data.delay(name)
+    if bio in [None, u'']:
+        tasks.update_artist_data.delay(name)
 
 def delete_artist(id):
     s = database.Session()
