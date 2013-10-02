@@ -103,6 +103,11 @@ def submit():
         template = templates.get_template("submit.html")
         return template.render(captcha_html=recaptcha.displayhtml(RECAPTCHA_PUBLIC_KEY))
     elif request.method == 'POST':
+        # validate captcha
+        recaptcha_response = recaptcha.submit(request.form['recaptcha_challenge_field'], request.form['recaptcha_response_field'], RECAPTCHA_PRIVATE_KEY, request.remote_addr)
+        if not recaptcha_response.is_valid:
+            abort(400)
+
         time_start = time.strptime("%s %s" % (request.form['date'], request.form['time']), '%A %d %B, %Y %H:%M')
         time_start = datetime.datetime.fromtimestamp(time.mktime(time_start))
         venue = request.form['venue']
