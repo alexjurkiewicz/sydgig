@@ -6,20 +6,28 @@
 {% endblock %}
 
 {% block content %}
-<h2>{{artist.name}}</h2>
-{% if artist.image_url %}<p><img class="img-thumbnail pull-right" src="{{ artist.image_url }}"></p>{% endif %}
-{% if artist.gigs_performed %}
-<h3>Gigs</h3>
-<p><ul>
-        {% for gig in artist.gigs_performed|sort(attribute='time_start') %}<li><a href="/gig/{{gig.id}}">{{gig.time_start|naturaltime}} at {{gig.venue.name}}</a></li>{% endfor %}
-</ul></p>
-{% endif %}
-{% if artist.bio %}
-<h3>About</h3>
-<p>
-{% autoescape false %}{{artist.bio}}{% endautoescape %}
-</p>
-{% endif %}
+<div class="row">
+    <div class="col-sm-8">
+        <h2>{{artist.name}}</h2>
+        {% if artist.gigs_performed %}
+        <h3>Gigs</h3>
+        <p><ul>
+            {% for gig in artist.gigs_performed|sort(attribute='time_start') %}
+            <li><a href="/gig/{{gig.id}}">{{gig.time_start|naturaltime}} at {{gig.venue.name}}</a></li>
+            {% endfor %}
+        </ul></p>
+        {% endif %}
+    {% if artist.bio %}
+    <h3>About</h3>
+    <p>
+    {% autoescape false %}{{artist.bio}}{% endautoescape %}
+    </p>
+    {% endif %}
+    </div>
+    <div class="col-sm-4">
+        {% if artist.image_url %}<p><img class="img-rounded img-responsive" style="max-height: 400px" src="{{ artist.image_url }}"></p>{% endif %}
+     </div>
+ </div>
 {% endblock %}
 
 {% block footer %}
