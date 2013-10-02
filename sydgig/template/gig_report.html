@@ -6,7 +6,16 @@
 {% endblock %}
 
 {% block content %}
-<p>Thanks for your report, we'll look into this ASAP.</p>
+<div class="container" style="max-width: 500px">
+<h2>Report Gig</h2>
+<form role="form" action="" method="post" id="gig-report">
+    <div class="form-group">
+        <label for="reason">Reason</label>
+        <textarea tabindex="1" class="form-control" rows="3" placeholder="Spam, incorrect info, etc..." autofocus="autofocus"></textarea>
+    </div>
+    <button tabindex="2" type="submit" class="btn btn-primary">Submit</button>
+</form>
+</div>
 {% endblock %}
 
 {% block footer %}
