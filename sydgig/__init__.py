@@ -1,12 +1,15 @@
 from __future__ import division, absolute_import
 
-import datetime, random, time
+import datetime, random, time, os
 
 import sydgig.template as template
 import sydgig.model as model
 
 from flask import Flask, request, redirect, url_for, abort, g
+
 app = Flask(__name__)
+app.config['SECRET_KEY'] = os.urandom(32)
+
 templates = template.templates
 
 # Page timer
