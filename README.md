@@ -1,5 +1,5 @@
-Syd Gigs
-========
+SydGigs
+=======
 
 Nobody but me will read this, but I will still format & document it beautifully.
 
@@ -8,21 +8,24 @@ A website that tracks:
 * Gigs,
 * The artists who play them,
 * The venues who host them,
-* The people who attend them.
 
 Runs as a Python app and is currently NOT PRODUCTION READY.
+
+Requirements
+------------
+
+* Python 2.6/2.7
+* virtualenv (if not already installed, try `sudo pip install virtualenv` or `sudo easy_install virtualenv`
 
 Installation
 ------------
 
 This repository is intended to be used with a Python virtualenv. This is a Python install in a single directory, which means no need to pollute your system with the real requirements. You just need virtualenv installed system wide. If you can't run 'virtualenv', you need to install it:
 
-1. `sudo pip install virtualenv` or `sudo easy_install pip virtualenv` (no difference)
-2. `cd /path/to/sydgig`
-3. `virtualenv venv`. This creates a virtualenv in `venv/`.
-4. `. ./venv/bin/activate` (Unix) or `venv\Scripts\Activate` (Windows). This will change your prompt to indicate the virtualenv is active.
-5. `pip install -r requirements.txt`. This installs the requirements for the site into your virtualenv.
-6. Done!
+1. `cd sydgig`
+2. `virtualenv venv`
+3. `. ./venv/bin/activate` (Unix) or `venv\Scripts\Activate` (Windows)
+4. `pip install -r requirements.txt`
 
 How to run the site
 -------------------
