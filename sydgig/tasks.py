@@ -51,3 +51,9 @@ def update_venue_data(name):
     if info:
         address = info['formatted_address']
         model.update_venue_by_id(original_record.id, address=address)
+
+@celery.task
+def send_gig_report_email(recipient, sender, message):
+    s = smtplib.SMTP('localhost')
+    s.sendmail(sender,  [recipient], msg.as_string())
+    s.quit()

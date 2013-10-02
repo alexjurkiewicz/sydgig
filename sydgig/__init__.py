@@ -108,14 +108,8 @@ def gig_report(id):
         msg['Subject'] = 'Sydgig report for gig %s' % id
         msg['From'] = EMAIL_ADMIN_FROM
         msg['To'] = EMAIL_ADMIN_TO
-        try:
-            s = smtplib.SMTP('localhost')
-            s.sendmail(EMAIL_ADMIN_FROM,  [EMAIL_ADMIN_TO], msg.as_string())
-            s.quit()
-        except BaseException as e:
-            print "Couldn't send email report (%s)" % e
-            print "Message as follows:"
-            print msg.as_string()
+
+        tasks.send_gig_report_email.delay(sender=EMAIL_ADMIN_FROM, recipient=EMAIL_ADMIN_T), message=msg)
 
         template = templates.get_template("gig_report_success.html")
         return template.render(gig=model.get_gig_by_id(id))
