@@ -2,7 +2,7 @@
 {% set active_page = 'gig' -%}
 
 {% block head %}
-<title>SydGig</title>
+<title>{{gig.performers|map(attribute='name')|join(', ')}} @ {{ gig.venue.name }} - SydGig</title>
 {% endblock %}
 
 {% block content %}
