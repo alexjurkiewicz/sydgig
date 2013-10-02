@@ -1,6 +1,6 @@
 from __future__ import division, absolute_import
 
-import datetime, random, time, os
+import datetime, random, time, os, smtplib, email
 
 import sydgig.template as template
 import sydgig.model as model
@@ -14,6 +14,8 @@ app.config['SECRET_KEY'] = os.urandom(32)
 
 RECAPTCHA_PUBLIC_KEY = '6LdSPugSAAAAAJncStVRJ_9FNY-lJ85QKKXWDDBd'
 RECAPTCHA_PRIVATE_KEY = '6LdSPugSAAAAAGq-KLr2Pv4rDeABYBqwEr2UO1Mo'
+EMAIL_ADMIN_FROM = 'sydgig@sydgig.com'
+EMAIL_ADMIN_TO = 'alex@jurkiewi.cz'
 
 templates = template.templates
 
@@ -91,10 +93,34 @@ def gig_info(id):
     template = templates.get_template("gig_info.html")
     return template.render(gig=model.get_gig_by_id(id))
 
-@app.route('/gig/report/<int:id>')
+@app.route('/gig/report/<int:id>', methods=('GET', 'POST'))
 def gig_report(id):
-    template = templates.get_template("gig_report.html")
-    return template.render(gig=model.get_gig_by_id(id))
+    if request.method == 'GET':
+        template = templates.get_template("gig_report.html")
+        return template.render(gig=model.get_gig_by_id(id), captcha_html=recaptcha.displayhtml(RECAPTCHA_PUBLIC_KEY))
+    elif request.method == 'POST':
+        print "hello"
+        # validate captcha
+        recaptcha_response = recaptcha.submit(request.form['recaptcha_challenge_field'], request.form['recaptcha_response_field'], RECAPTCHA_PRIVATE_KEY, request.remote_addr)
+        if not recaptcha_response.is_valid:
+            abort(400)
+        msg = email.mime.text.MIMEText('Gig ID: %s\nReason: %s\nFrom IP: %s' % (id, request.form['reason'], request.remote_addr))
+        msg['Subject'] = 'Sydgig report for gig %s' % id
+        msg['From'] = EMAIL_ADMIN_FROM
+        msg['To'] = EMAIL_ADMIN_TO
+        try:
+            s = smtplib.SMTP('localhost')
+            s.sendmail(EMAIL_ADMIN_FROM,  [EMAIL_ADMIN_TO], msg.as_string())
+            s.quit()
+        except BaseException as e:
+            print "Couldn't send email report (%s)" % e
+            print "Message as follows:"
+            print msg.as_string()
+
+        template = templates.get_template("gig_report_success.html")
+        return template.render(gig=model.get_gig_by_id(id))
+    else:
+        assert False
 
 # Submit
 @app.route('/submit', methods=['GET', 'POST'])

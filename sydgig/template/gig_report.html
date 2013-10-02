@@ -3,18 +3,32 @@
 
 {% block head %}
 <title>SydGig</title>
+
+<script type="text/javascript">
+    var RecaptchaOptions = {
+        theme : 'white',
+        tabindex : 2,
+    };
+</script>
 {% endblock %}
 
 {% block content %}
-<div class="container" style="max-width: 500px">
-<h2>Report Gig</h2>
-<form role="form" action="" method="post" id="gig-report">
-    <div class="form-group">
-        <label for="reason">Reason</label>
-        <textarea tabindex="1" class="form-control" rows="3" placeholder="Spam, incorrect info, etc..." autofocus="autofocus"></textarea>
+<p><a href="/gig/{{ gig.id }}"><span class="glyphicon glyphicon-chevron-left"></span> Back to gig</a></p>
+<div class="row">
+    <div class="col-md-6 col-sm-9 col-xs-12">
+        <h2>Report Gig</h2>
+        <form role="form" action="" method="post" id="gig-report">
+            <div class="form-group">
+                <label for="reason">Reason</label>
+                <textarea tabindex="1" class="form-control" rows="3" name="reason" id="reason" placeholder="Spam, incorrect info, etc..." autofocus="autofocus"></textarea>
+            </div>
+            <div class="form-group">
+                <label>No robots allowed</label>
+                {% autoescape false %}{{ captcha_html }}{% endautoescape %}
+            </div>
+            <button tabindex="3" type="submit" class="btn btn-primary">Submit</button>
+        </form>
     </div>
-    <button tabindex="2" type="submit" class="btn btn-primary">Submit</button>
-</form>
 </div>
 {% endblock %}
 
