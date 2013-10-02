@@ -1,7 +1,7 @@
 BROKER_URL = 'sqla+sqlite:///celerydb-tasks.sqlite'
 BACKEND_URL = 'sqla+sqlite:///celerydb-results.sqlite'
 
-#import sydgig.lastfm_api as lastfm_api
+import sydgig.lastfm_api as lastfm_api
 import sydgig.googlemaps_api as googlemaps_api
 import os, requests
 
@@ -18,7 +18,6 @@ celery.conf.CELERY_RESULT_DBURI = "sqlite:///celerydb-results.sqlite"
 @celery.task
 def update_artist_data(name):
     '''Given the name of an artist in the database, clean up their record'''
-    return True # XXX: lastfm_api module is currently broken
     import sydgig.model as model
     original_record = model.get_artist_by_name(name)
     if original_record:

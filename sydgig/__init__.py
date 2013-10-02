@@ -4,6 +4,7 @@ import datetime, random, time, os, smtplib, email
 
 import sydgig.template as template
 import sydgig.model as model
+import sydgig.tasks as tasks
 
 from flask import Flask, request, redirect, url_for, abort, g
 
