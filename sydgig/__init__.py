@@ -7,8 +7,13 @@ import sydgig.model as model
 
 from flask import Flask, request, redirect, url_for, abort, g
 
+import recaptcha.client.captcha as recaptcha
+
 app = Flask(__name__)
 app.config['SECRET_KEY'] = os.urandom(32)
+
+RECAPTCHA_PUBLIC_KEY = '6LdSPugSAAAAAJncStVRJ_9FNY-lJ85QKKXWDDBd'
+RECAPTCHA_PRIVATE_KEY = '6LdSPugSAAAAAGq-KLr2Pv4rDeABYBqwEr2UO1Mo'
 
 templates = template.templates
 
@@ -96,7 +101,7 @@ def gig_report(id):
 def submit():
     if request.method == 'GET':
         template = templates.get_template("submit.html")
-        return template.render()
+        return template.render(captcha_html=recaptcha.displayhtml(RECAPTCHA_PUBLIC_KEY))
     elif request.method == 'POST':
         time_start = time.strptime("%s %s" % (request.form['date'], request.form['time']), '%A %d %B, %Y %H:%M')
         time_start = datetime.datetime.fromtimestamp(time.mktime(time_start))

@@ -20,3 +20,5 @@ humanize
 # soundcloud
 soundcloud
 
+# recaptcha
+recaptcha-client
