@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% set active_page = 'gig' -%}
+
+{% block head %}
+<title>SydGig</title>
+
+<script type="text/javascript">
+    var RecaptchaOptions = {
+        theme : 'white',
+        tabindex : 2,
+    };
+</script>
+{% endblock %}
+
+{% block content %}
+<div class="row">
+    <h2>Report Received</h2>
+    <p>Thanks for your report, we'll look into this ASAP.</p>
+</div>
+{% endblock %}
+
+{% block footer %}
+{{ super() }}
+{% endblock %}
