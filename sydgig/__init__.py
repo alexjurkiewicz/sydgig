@@ -109,7 +109,7 @@ def gig_report(id):
         msg['From'] = EMAIL_ADMIN_FROM
         msg['To'] = EMAIL_ADMIN_TO
 
-        tasks.send_gig_report_email.delay(sender=EMAIL_ADMIN_FROM, recipient=EMAIL_ADMIN_T), message=msg)
+        tasks.send_gig_report_email.delay(sender=EMAIL_ADMIN_FROM, recipient=EMAIL_ADMIN_TO, message=msg)
 
         template = templates.get_template("gig_report_success.html")
         return template.render(gig=model.get_gig_by_id(id))
