@@ -92,29 +92,29 @@ def gig_report(id):
     return template.render(gig=model.get_gig_by_id(id))
 
 # Submit
-@app.route('/submit')
+@app.route('/submit', methods=['GET', 'POST'])
 def submit():
-    template = templates.get_template("submit.html")
-    return template.render()
+    if request.method == 'GET':
+        template = templates.get_template("submit.html")
+        return template.render()
+    elif request.method == 'POST':
+        time_start = time.strptime("%s %s" % (request.form['date'], request.form['time']), '%A %d %B, %Y %H:%M')
+        time_start = datetime.datetime.fromtimestamp(time.mktime(time_start))
+        venue = request.form['venue']
+        artists = request.form.getlist('artists')
+        gigname = request.form['gigname']
+        if not venue or not artists:
+            abort(400)
 
-# /submit posts here
-@app.route('/takesubmit', methods=['POST'])
-def takesubmit():
-    time_start = time.strptime("%s %s" % (request.form['date'], request.form['time']), '%A %d %B, %Y %H:%M')
-    time_start = datetime.datetime.fromtimestamp(time.mktime(time_start))
-    venue = request.form['venue']
-    artists = request.form.getlist('artists')
-    gigname = request.form['gigname']
-    if not venue or not artists:
-        abort(400)
+        if not model.get_venue_by_name(venue):
+            model.add_venue(venue)
+        venue_id = model.get_venue_by_name(venue).id
+        for artist in artists:
+            if not model.get_artist_by_name(artist):
+                model.add_artist(artist)
+        artist_ids = [model.get_artist_by_name(artist).id for artist in artists]
+        model.add_gig(time_start, venue_id, artist_ids, name=gigname)
 
-    if not model.get_venue_by_name(venue):
-        model.add_venue(venue)
-    venue_id = model.get_venue_by_name(venue).id
-    for artist in artists:
-        if not model.get_artist_by_name(artist):
-            model.add_artist(artist)
-    artist_ids = [model.get_artist_by_name(artist).id for artist in artists]
-    model.add_gig(time_start, venue_id, artist_ids, name=gigname)
-
-    return redirect(url_for('index'))
+        return redirect(url_for('index'))
+    else: # unknown request method
+        assert False
