@@ -6,6 +6,7 @@
 {% endblock %}
 
 {% block content %}
+<div class="container">
 <div class="row">
     <h2>{% if gig.name %}{{ gig.name }}{% else %}Gig Info{% endif %}</h2>
 </div>
@@ -31,7 +32,8 @@
         <iframe style="margin-top: 0.5rem; margin-bottom: 0.5rem;" width="425" height="350" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="https://maps.google.com.au/maps?f=q&amp;source=s_q&amp;hl=en&amp;geocode=&amp;q={{ gig.venue.name|quote_plus }},%20{{ gig.venue.address|quote_plus }}&amp;aq=&amp;ie=UTF8&amp;hnear=&amp;t=m&amp;iwloc=A&amp;output=embed"></iframe>
     </div>
 </div>
-        <p class="text-danger"><a style="color: #b94a48" href="/gig/report/{{ gig.id }}">Report this gig.</a></p>
+    <p class="text-danger"><a style="color: #b94a48" href="/gig/report/{{ gig.id }}">Report this gig.</a></p>
+</div>
 {% endblock %}
 
 {% block footer %}
