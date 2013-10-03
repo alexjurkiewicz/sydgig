@@ -33,6 +33,7 @@ templates.filters['longdate'] = longdate
 
 def truncate_list(l, maxitems=3, end='...'):
     '''Return a list of max length maxitems, with the last item as end if there were more in the first place'''
+    l = [i for i in l] # de-generator the input
     if len(l) > maxitems:
         return l[:maxitems] + [end]
     else:

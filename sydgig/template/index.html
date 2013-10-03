@@ -12,7 +12,7 @@
 {% for date_bunch in gigs|sort|batch(7) %}
   <tr class="calendar-row">
     {% for date in date_bunch %}
-    <td class="calendar-day {% if date < date_today() %}calendar-past{% elif istoday(date) %}calendar-today{% else %}calendar-future{% endif %}">
+    <td class="calendar-day {% if date < date_today() %}calendar-past{% elif date|istoday() %}calendar-today{% else %}calendar-future{% endif %}">
       {% if date >= date_today() %}
       <p>{{ date|simpledate }}</p>
       <ul class="list-unstyled">
