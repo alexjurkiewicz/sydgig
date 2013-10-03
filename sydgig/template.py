@@ -22,6 +22,13 @@ def longdate(value):
     '''datetime -> Friday 6 September, 2013'''
     return value.strftime('%A %d %B, %Y')
 
+def truncate_list(l, maxitems=3, end='...'):
+    '''Return a list of max length maxitems, with the last item as end if there were more in the first place'''
+    if len(l) > maxitems:
+        return l[:maxitems] + [end]
+    else:
+        return l
+
 templates = Environment(loader=FileSystemLoader('sydgig/template/'),
                         autoescape=guess_autoescape,
                         extensions=['jinja2.ext.autoescape'])
@@ -30,6 +37,8 @@ templates.filters['quote_plus'] = quote_plus
 templates.filters['naturaltime'] = naturaltime
 templates.filters['simpledate'] = simpledate
 templates.filters['longdate'] = longdate
+templates.filters['truncate_list'] = truncate_list
+
 def date_year():
     return int(time.strftime("%Y"))
 def date_month():
