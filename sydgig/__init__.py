@@ -132,7 +132,7 @@ def submit():
         time_start = time.strptime("%s %s" % (request.form['date'], request.form['time']), '%A %d %B, %Y %H:%M')
         time_start = datetime.datetime.fromtimestamp(time.mktime(time_start))
         venue = request.form['venue']
-        artists = request.form.getlist('artists')
+        artists = [artist for artist in request.form.getlist('artists')if artist]
         gigname = request.form['gigname']
         if not venue or not artists:
             abort(400)
