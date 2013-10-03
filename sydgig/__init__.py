@@ -1,6 +1,6 @@
 from __future__ import division, absolute_import
 
-import datetime, random, time, os, smtplib, email, json
+import datetime, random, time, os, smtplib, email
 
 import sydgig.template as template
 import sydgig.model as model
@@ -92,25 +92,30 @@ def venue_info(id, name=None):
 @app.route('/gig/<int:id>')
 def gig_info(id):
     template = templates.get_template("gig_info.html")
-    return template.render(gig=model.get_gig_by_id(id), captcha_html=recaptcha.displayhtml(RECAPTCHA_PUBLIC_KEY))
+    return template.render(gig=model.get_gig_by_id(id))
 
-@app.route('/gig/report', methods=['POST'])
-def gig_report():
-    # validate captcha
-    recaptcha_response = recaptcha.submit(request.form['recaptcha_challenge_field'], request.form['recaptcha_response_field'], RECAPTCHA_PRIVATE_KEY, request.remote_addr)
-    if not recaptcha_response.is_valid:
-        abort(400)
-    msg = email.mime.text.MIMEText('Gig ID: %s\nReason: %s\nFrom IP: %s' % (id, request.form['reason'], request.remote_addr))
-    msg['Subject'] = 'Sydgig report for gig %s' % id
-    msg['From'] = EMAIL_ADMIN_FROM
-    msg['To'] = EMAIL_ADMIN_TO
+@app.route('/gig/report/<int:id>', methods=('GET', 'POST'))
+def gig_report(id):
+    if request.method == 'GET':
+        template = templates.get_template("gig_report.html")
+        return template.render(gig=model.get_gig_by_id(id), captcha_html=recaptcha.displayhtml(RECAPTCHA_PUBLIC_KEY))
+    elif request.method == 'POST':
+        print "hello"
+        # validate captcha
+        recaptcha_response = recaptcha.submit(request.form['recaptcha_challenge_field'], request.form['recaptcha_response_field'], RECAPTCHA_PRIVATE_KEY, request.remote_addr)
+        if not recaptcha_response.is_valid:
+            abort(400)
+        msg = email.mime.text.MIMEText('Gig ID: %s\nReason: %s\nFrom IP: %s' % (id, request.form['reason'], request.remote_addr))
+        msg['Subject'] = 'Sydgig report for gig %s' % id
+        msg['From'] = EMAIL_ADMIN_FROM
+        msg['To'] = EMAIL_ADMIN_TO
 
-    tasks.send_gig_report_email.delay(sender=EMAIL_ADMIN_FROM, recipient=EMAIL_ADMIN_TO, message=msg)
+        tasks.send_gig_report_email.delay(sender=EMAIL_ADMIN_FROM, recipient=EMAIL_ADMIN_TO, message=msg)
 
-    #template = templates.get_template("gig_report_success.html")
-    #return template.render(gig=model.get_gig_by_id(id))
-
-    return json.dumps({ 'status': 'success', 'message' : "Thanks for your report, we'll look into this ASAP." })
+        template = templates.get_template("gig_report_success.html")
+        return template.render(gig=model.get_gig_by_id(id))
+    else:
+        assert False
 
 # Submit
 @app.route('/submit', methods=['GET', 'POST'])

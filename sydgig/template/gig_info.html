@@ -3,13 +3,6 @@
 
 {% block head %}
 <title>{{gig.performers|map(attribute='name')|join(', ')}} @ {{ gig.venue.name }} - SydGig</title>
-
-<script type="text/javascript">
-    var RecaptchaOptions = {
-        theme : 'white',
-        tabindex : 2,
-    };
-</script>
 {% endblock %}
 
 {% block content %}
@@ -39,44 +32,7 @@
         <iframe style="margin-top: 0.5rem; margin-bottom: 0.5rem;" width="425" height="350" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="https://maps.google.com.au/maps?f=q&amp;source=s_q&amp;hl=en&amp;geocode=&amp;q={{ gig.venue.name|quote_plus }},%20{{ gig.venue.address|quote_plus }}&amp;aq=&amp;ie=UTF8&amp;hnear=&amp;t=m&amp;iwloc=A&amp;output=embed"></iframe>
     </div>
 </div>
-    <!-- report button trigger -->
-    <p class="text-danger"><a data-toggle="modal" href="#report-modal" style="color: #b94a48">Report this gig.</a></p>
-
-    <!-- report modal -->
-    <div class="modal fade" id="report-modal" tabindex="-1" role="dialog">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4 class="modal-title">Report Gig</h4>
-                </div>
-                <div class="modal-body">
-                    <form role="form" id="gig-report">
-                        <div class="form-group">
-                            <label for="reason">Reason</label>
-                            <textarea tabindex="1" class="form-control" rows="3" name="reason" id="reason" placeholder="Spam, incorrect info, etc..." autofocus="autofocus"></textarea>
-                        </div>
-                        <div class="form-group">
-                            <label>No robots allowed</label>
-                            {% autoescape false %}{{ captcha_html }}{% endautoescape %}
-                        </div>
-                        <button tabindex="3" type="submit" class="btn btn-primary">Submit</button>
-                        <div id="report-submit-progress"></div>
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default btn-primary" data-dismiss="modal">Close</button>
-                    <script>
-                        $("#gig-report").submit(function( event ) {
-                            event.preventDefault();
-                            $("#report-submit-progress").html("<p>Submitting...</p>");
-                            $.post('/gig/report', $('#gig-report').serialize() + "&id={{ gig.id }}");
-                        });
-                    </script>
-                </div>
-            </div>
-        </div>
-    </div>
+    <p class="text-danger"><a style="color: #b94a48" href="/gig/report/{{ gig.id }}">Report this gig.</a></p>
 </div>
 {% endblock %}
 
