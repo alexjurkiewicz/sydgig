@@ -27,7 +27,7 @@ def before_request():
 @app.after_request
 def after_request(response):
     diff = int((time.time() - g.time_start) * 1000)  # to get a time in ms
-    if response.response and response.content_type.startswith("text/html") and response.status_code == 200:
+    if response.response and response.content_type.startswith("text/html"):
         response.response[0] = response.response[0].replace('__EXECUTION_TIME__', str(diff))
         response.headers["content-length"] = len(response.response[0])
     return response
@@ -41,27 +41,18 @@ def index():
 def page_not_found(e):
     template = templates.get_template("404.html")
     response = template.render()
-    # after_request handlers aren't run with the error handler, so calculate generation time here
-    diff = int((time.time() - g.time_start) * 1000)  # to get a time in ms
-    response = response.replace('__EXECUTION_TIME__', str(diff))
     return response, 404
 
 @app.errorhandler(500)
 def page_not_found(e):
     template = templates.get_template("500.html")
     response = template.render()
-    # after_request handlers aren't run with the error handler, so calculate generation time here
-    diff = int((time.time() - g.time_start) * 1000)  # to get a time in ms
-    response = response.replace('__EXECUTION_TIME__', str(diff))
     return response, 500
 
 @app.errorhandler(400)
 def bad_request(e):
     template = templates.get_template("400.html")
     response = template.render()
-    # after_request handlers aren't run with the error handler, so calculate generation time here
-    diff = int((time.time() - g.time_start) * 1000)  # to get a time in ms
-    response = response.replace('__EXECUTION_TIME__', str(diff))
     return response, 400
 
 @app.route('/about')
