@@ -55,5 +55,5 @@ def update_venue_data(name):
 def send_gig_report_email(recipient, sender, message):
     import smtplib
     s = smtplib.SMTP('localhost')
-    s.sendmail(sender,  [recipient], msg.as_string())
+    s.sendmail(sender,  [recipient], message.as_string())
     s.quit()
