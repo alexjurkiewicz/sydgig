@@ -69,7 +69,11 @@ def about():
     vids = ( 'http://www.youtube.com/watch?v=M8XmoroZ3zo', # preatures - is this how you feel
             'http://www.youtube.com/watch?v=yBL3aKLZ6qY', # coach bombay - take off
             'http://www.youtube.com/watch?v=ED6yVA_zw7A', # client liaison @ golden plains
-            'http://www.youtube.com/watch&v=ic1DjIFDbeQ', # the presets - fall
+            'http://www.youtube.com/watch?v=ic1DjIFDbeQ', # the presets - fall
+            'http://www.youtube.com/watch?v=yfEmJPMVWuo', # collarbones - teenage dreams
+            'http://www.youtube.com/watch?v=Vfl18wIVApQ', # standish/carlyon - nono/yoyo
+            'http://www.youtube.com/watch?v=Cc9ScFgWqcg', # single twin - my silken tooth
+            'http://www.youtube.com/watch?v=enZ-TZrwLPY', # los tones - buchanan hammer
             )
     template = templates.get_template("about.html")
     return template.render(video=random.choice(vids))
