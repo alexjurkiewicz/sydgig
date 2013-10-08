@@ -8,7 +8,7 @@
 {% block content %}
 <!-- gig list starts here -->
 <div class="table-responsive">
-<table class="table table-bordered calendar-table">
+<table class="table table-bordered table-condensed calendar-table">
 {% for date_bunch in gigs|sort|batch(7) %}
   <tr class="calendar-row">
     {% for date in date_bunch %}
