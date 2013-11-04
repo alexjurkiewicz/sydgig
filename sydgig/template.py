@@ -23,7 +23,7 @@ templates.filters['naturaltime'] = naturaltime
 
 def simpletime(value):
     '''datetime -> 8:30pm'''
-    hr = str(int(value.strftime('%H'))) # strip any leading 0
+    hr = str(int(value.strftime('%I'))) # strip any leading 0
     min = value.strftime('%M')
     if min == '00':
         return hr + value.strftime('%p').lower()
