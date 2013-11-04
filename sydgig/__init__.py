@@ -113,10 +113,10 @@ def gig_report(id):
         assert False
 
 # Submit
-@app.route('/submit', methods=['GET', 'POST'])
-def submit():
+@app.route('/add', methods=['GET', 'POST'])
+def add():
     if request.method == 'GET':
-        template = templates.get_template("submit.html")
+        template = templates.get_template("add.html")
         return template.render(captcha_html=recaptcha.displayhtml(RECAPTCHA_PUBLIC_KEY))
     elif request.method == 'POST':
         # validate captcha
