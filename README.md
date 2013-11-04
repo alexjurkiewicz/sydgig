@@ -15,7 +15,7 @@ Requirements
 ------------
 
 * Python 2.6/2.7
-* virtualenv (if not already installed, try `sudo pip install virtualenv` or `sudo easy_install virtualenv`
+* virtualenv (if not installed, try `sudo pip install virtualenv` or `sudo easy_install virtualenv`)
 
 Installation
 ------------
