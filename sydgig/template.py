@@ -41,6 +41,11 @@ def truncate_list(l, maxitems=3, end='{num} more'):
         return l
 templates.filters['truncate_list'] = truncate_list
 
+def english_join(l, separator=', ', final_sep=' and '):
+    l = [i for i in l]
+    return separator.join(l[:-1]) + final_sep + l[-1]
+templates.filters['english_join'] = english_join
+
 def istoday(d):
     '''return true if datetime d is the same day as today'''
     n = datetime.datetime.now()
