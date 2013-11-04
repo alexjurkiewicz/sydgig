@@ -21,6 +21,16 @@ def naturaltime(value):
     return humanize.naturaltime(value)
 templates.filters['naturaltime'] = naturaltime
 
+def simpletime(value):
+    '''datetime -> 8:30pm'''
+    hr = str(int(value.strftime('%H'))) # strip any leading 0
+    min = value.strftime('%M')
+    if min == '00':
+        return hr + value.strftime('%p').lower()
+    else:
+        return hr + ':' + min + value.strftime('%p').lower()
+templates.filters['simpletime'] = simpletime
+
 def simpledate(value):
     '''datetime -> Sat 3'''
     return value.strftime('%a ') + str(int(value.strftime('%d'))) # gets rid of leading 0
