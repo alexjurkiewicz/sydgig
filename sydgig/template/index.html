@@ -7,8 +7,10 @@
 
 {% block content %}
 <!-- gig list starts here -->
-<div class="table-responsive">
-<table class="table table-bordered table-condensed calendar-table">
+<!-- displayed on tablets/desktops as a calendar -->
+<div class="hidden-xs">
+<!-- displayed on tablets/desktops as a calendar -->
+<table class="table table-condensed calendar-table hidden-xs">
 {% for date_bunch in gigs|sort|batch(7) %}
   <tr class="calendar-row">
     {% for date in date_bunch %}
@@ -17,7 +19,7 @@
       <p>{{ date|simpledate }}</p>
       <ul class="list-unstyled">
       {% for gig in gigs[date] %}
-      <li><p class="calendar-text"><a href="/gig/{{gig.id}}">{{ gig.performers|map(attribute='name')|truncate_list|english_join(final_sep=' + ') }} @ {{gig.venue.name }}</a></p></li>
+      <li><p class="calendar-text"><a href="/gig/{{gig.id}}">({{ gig.time_start|simpletime }}) {{ gig.performers|map(attribute='name')|truncate_list|english_join(final_sep=' + ') }} @ {{gig.venue.name }}</a></p></li>
       {% endfor %}
       {% endif %}
       </ul>
@@ -27,6 +29,21 @@
   {% endfor %}
 </table>
 </div>
+<!-- displayed on mobiles as a list -->
+<div class="hidden-sm hidden-md hidden-lg">
+    {% for date in gigs|sort %}
+    {% if date >= date_today() and gigs[date] %}
+    <p>{{ date|simpledate }}</p>
+    <ul>
+        {% for gig in gigs[date] %}
+        <li><p class="calendar-text"><a href="/gig/{{gig.id}}">({{ gig.time_start|simpletime }}) {{ gig.performers|map(attribute='name')|truncate_list|english_join(final_sep=' + ') }} @ {{gig.venue.name }}</a></p></li>
+        {% endfor %}
+    </ul>
+    </p>
+    {% endif %}
+    {% endfor %}
+</div>
+<!-- gig list ends here -->
 {% endblock %}
 
 {% block footer %}
