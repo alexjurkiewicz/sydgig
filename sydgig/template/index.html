@@ -17,7 +17,7 @@
       <p>{{ date|simpledate }}</p>
       <ul class="list-unstyled">
       {% for gig in gigs[date] %}
-      <li><p class="calendar-text"><a href="/gig/{{gig.id}}">{{ gig.performers|map(attribute='name')|truncate_list|join(', ') }} @ {{gig.venue.name }}</a></p></li>
+      <li><p class="calendar-text"><a href="/gig/{{gig.id}}">{{ gig.performers|map(attribute='name')|truncate_list|english_join(final_sep=' + ') }} @ {{gig.venue.name }}</a></p></li>
       {% endfor %}
       {% endif %}
       </ul>
