@@ -168,3 +168,8 @@ def subscribe_email(email):
     except sqlalchemy.exc.IntegrityError:
         return
     tasks.send_newsletter_signup_confirmation.delay(email, verification_code)
+    
+def verify_email(email, code):
+    s = database.Session()
+    sub = s.query(NewsletterSubscriber).filter(NewsletterSubscriber.email == email).one()
+    return sub.verification_code == code

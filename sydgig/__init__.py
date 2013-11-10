@@ -157,3 +157,11 @@ def newsletter_signup():
         return template.render()
     else:
         abort(400)
+
+@app.route('/newsletter-verify')
+def newsletter_verify():
+    email = request.form['email']
+    code = request.form['code']
+    if model.verify_email(email, code):
+        template = templates.get_template("newsletter_verify_success.html")
+    return template.render()
