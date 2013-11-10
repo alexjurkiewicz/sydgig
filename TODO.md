@@ -6,6 +6,7 @@ Simple
 * Add URLs to artists
 * Add URLs to venues
 * Missing artists on gig submission
+* Normalise artist/venue names
 
 Moderate
 --------
