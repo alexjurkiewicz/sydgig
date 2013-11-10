@@ -1,7 +1,7 @@
 import sydgig.util as util
 
 from sqlalchemy import create_engine
-from sqlalchemy import Table, Column, ForeignKey, Integer, String, DateTime, UniqueConstraint
+from sqlalchemy import Table, Column, ForeignKey, Integer, String, DateTime, UniqueConstraint, Boolean
 from sqlalchemy.orm import relationship, backref
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
@@ -78,6 +78,21 @@ class Venue(Base):
     @property
     def name_slug(self):
         return util.slugify(self.name)
+
+class NewsletterSubscriber(Base):
+    __tablename__ = 'newslettersubscribers'
+    id = Column(Integer, primary_key = True)
+    email = Column(String, unique = True)
+    verified = Column(Boolean)
+    verification_code = Column(String)
+
+    def __init__(self, email, verification_code):
+        self.email = email
+        self.verified = False
+        self.verification_code = verification_code
+
+    def __repr__(self):
+        return '{Newsletter subscription %s: %s}' % (self.id, self.name)
 
 #class ArtistURL(Base):
     #__tablename__ = 'artisturls'
