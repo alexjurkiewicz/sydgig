@@ -7,6 +7,7 @@ import sydgig.model as model
 import sydgig.tasks as tasks
 
 from flask import Flask, request, redirect, url_for, abort, g
+import werkzeug
 
 import recaptcha.client.captcha as recaptcha
 
@@ -27,7 +28,8 @@ def before_request():
 @app.after_request
 def after_request(response):
     diff = int((time.time() - g.time_start) * 1000)  # to get a time in ms
-    if response.response and response.content_type.startswith("text/html"):
+    if response.response and not isinstance(response.response, werkzeug.wsgi.ClosingIterator) and \
+       response.content_type.startswith("text/html"):
         response.response[0] = response.response[0].replace('__EXECUTION_TIME__', str(diff))
         response.headers["content-length"] = len(response.response[0])
     return response
@@ -144,3 +146,14 @@ def add():
         return redirect(url_for('index'))
     else: # unknown request method
         assert False
+
+# Newsletter signup
+@app.route('/newsletter-signup', methods=['POST'])
+def newsletter_signup():
+    email = request.form['email']
+    if util.verify_email(email):
+        model.subscribe_email(email)
+        template = templates.get_template("newsletter_signup.html")
+        return template.render()
+    else:
+        abort(400)

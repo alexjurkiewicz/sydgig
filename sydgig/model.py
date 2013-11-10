@@ -4,6 +4,8 @@ import sydgig.tasks as tasks
 import sydgig.database as database
 from sydgig.database import Artist, Gig, Venue
 
+import sydgig.util as util
+
 import sqlalchemy.orm
 
 # Artists
@@ -154,3 +156,15 @@ def update_venue_by_id(id, name=None, address=None):
         venue.address = address
     s.add(venue)
     s.commit()
+
+# Newsletter
+def subscribe_email(email):
+    verification_code = util.generate_email_verification_code()
+    s = database.Session()
+    e = database.NewsletterSubscriber(email, verification_code = verification_code)
+    s.add(e)
+    try:
+        s.commit()
+    except sqlalchemy.exc.IntegrityError:
+        return
+    tasks.send_newsletter_signup_confirmation.delay(email, verification_code)

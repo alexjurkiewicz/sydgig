@@ -9,41 +9,54 @@
 <!-- gig list starts here -->
 <!-- displayed on tablets/desktops as a calendar -->
 <div class="hidden-xs">
-<!-- displayed on tablets/desktops as a calendar -->
-<table class="table table-condensed calendar-table hidden-xs">
-{% for date_bunch in gigs|sort|batch(7) %}
-  <tr class="calendar-row">
-    {% for date in date_bunch %}
-    <td class="calendar-day {% if date < date_today() %}calendar-past{% elif date|istoday() %}calendar-today{% else %}calendar-future{% endif %}">
-      {% if date >= date_today() %}
-      <p>{{ date|simpledate }}</p>
-      <ul class="list-unstyled">
-      {% for gig in gigs[date] %}
-      <li><p class="calendar-text"><a href="/gig/{{gig.id}}">({{ gig.time_start|simpletime }}) {{ gig.performers|map(attribute='name')|truncate_list|english_join(final_sep=' + ') }} @ {{gig.venue.name }}</a></p></li>
-      {% endfor %}
-      {% endif %}
-      </ul>
-    </td>
-    {% endfor %}
-  </tr>
-  {% endfor %}
-</table>
-</div>
-<!-- displayed on mobiles as a list -->
-<div class="hidden-sm hidden-md hidden-lg">
-    {% for date in gigs|sort %}
-    {% if date >= date_today() and gigs[date] %}
-    <p>{{ date|simpledate }}</p>
-    <ul>
-        {% for gig in gigs[date] %}
-        <li><p class="calendar-text"><a href="/gig/{{gig.id}}">({{ gig.time_start|simpletime }}) {{ gig.performers|map(attribute='name')|truncate_list|english_join(final_sep=' + ') }} @ {{gig.venue.name }}</a></p></li>
+    <!-- displayed on tablets/desktops as a calendar -->
+    <table class="table table-condensed calendar-table hidden-xs">
+    {% for date_bunch in gigs|sort|batch(7) %}
+      <tr class="calendar-row">
+        {% for date in date_bunch %}
+        <td class="calendar-day {% if date < date_today() %}calendar-past{% elif date|istoday() %}calendar-today{% else %}calendar-future{% endif %}">
+          {% if date >= date_today() %}
+          <p>{{ date|simpledate }}</p>
+          <ul class="list-unstyled">
+          {% for gig in gigs[date] %}
+          <li><p class="calendar-text"><a href="/gig/{{gig.id}}">({{ gig.time_start|simpletime }}) {{ gig.performers|map(attribute='name')|truncate_list|english_join(final_sep=' + ') }} @ {{gig.venue.name }}</a></p></li>
+          {% endfor %}
+          {% endif %}
+          </ul>
+        </td>
         {% endfor %}
-    </ul>
-    </p>
-    {% endif %}
-    {% endfor %}
+      </tr>
+      {% endfor %}
+    </table>
+    </div>
+    <!-- displayed on mobiles as a list -->
+    <div class="hidden-sm hidden-md hidden-lg">
+        {% for date in gigs|sort %}
+        {% if date >= date_today() and gigs[date] %}
+        <p>{{ date|simpledate }}</p>
+        <ul>
+            {% for gig in gigs[date] %}
+            <li><p class="calendar-text"><a href="/gig/{{gig.id}}">({{ gig.time_start|simpletime }}) {{ gig.performers|map(attribute='name')|truncate_list|english_join(final_sep=' + ') }} @ {{gig.venue.name }}</a></p></li>
+            {% endfor %}
+        </ul>
+        </p>
+        {% endif %}
+        {% endfor %}
+    </div>
+    <!-- gig list ends here -->
+
+    <!-- newsletter signup -->
+        <h4>Newsletter Signup</h4>
+        <form class="form-inline" role="form" action="/newsletter-signup" method="post">
+            <div class="form-group">
+                <label class="sr-only" for="email">Email address</label>
+                <input type="email" class="form-control" name="email" placeholder="Email">
+            </div>
+            <button type="submit" class="btn btn-submit">Subscribe</button>
+            <p><small>One email a week on Monday morning.</small></p>
+        </form>
+
 </div>
-<!-- gig list ends here -->
 {% endblock %}
 
 {% block footer %}
