@@ -3,3 +3,4 @@ venv*
 *.pyc
 celerydb-results.sqlite
 celerydb-tasks.sqlite
+.idea
