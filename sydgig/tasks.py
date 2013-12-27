@@ -8,6 +8,9 @@ import os, requests
 
 from celery import Celery
 from celery.utils.log import get_task_logger
+from celery.task import periodic_task
+from celery.schedules import crontab
+
 
 logger = get_task_logger('tasks')
 
@@ -23,9 +26,7 @@ def update_artist_data(name):
     original_record = model.get_artist_by_name(name)
     if original_record:
         info = lastfm_api.get_artist_info(name)
-
         name = info.name
-
         bio = info.bio.content
 
         imgdata = requests.get(info.image['mega'], stream=True).raw.read()
@@ -72,3 +73,8 @@ Please click on this link to verify your email: %s''' % ('http://www.sydgig.com/
     s = smtplib.SMTP('localhost')
     s.sendmail(sender_email, [recipient], message.as_string())
     s.quit()
+
+#@periodic_task(run_every=crontab(minute=0, hour=7, day_of_week=1, day_of_month='*', month_of_year='*'))
+@periodic_task(run_every=crontab())
+def send_weekly_newsletter():
+    print 'here i am!'
