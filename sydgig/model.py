@@ -2,7 +2,7 @@ import datetime
 
 import sydgig.tasks as tasks
 import sydgig.database as database
-from sydgig.database import Artist, Gig, Venue
+from sydgig.database import Artist, Gig, Venue, NewsletterSubscriber
 
 import sydgig.util as util
 
@@ -172,4 +172,10 @@ def subscribe_email(email):
 def verify_email(email, code):
     s = database.Session()
     sub = s.query(NewsletterSubscriber).filter(NewsletterSubscriber.email == email).one()
-    return sub.verification_code == code
+    if sub.verification_code == code:
+        sub.verified = True
+        s.add(sub)
+        s.commit()
+        return True
+    else:
+        return False
