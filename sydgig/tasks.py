@@ -3,6 +3,7 @@ BACKEND_URL = 'sqla+sqlite:///celerydb-results.sqlite'
 
 import sydgig.lastfm_api as lastfm_api
 import sydgig.googlemaps_api as googlemaps_api
+import sydgig.config as config
 import os, requests
 
 from celery import Celery
@@ -61,8 +62,9 @@ def send_gig_report_email(recipient, sender, message):
 @celery.task
 def send_newsletter_signup_confirmation(eml, verification_code):
     import smtplib, email
+    sender = sydgig.config('main', 'email_from_noreply')
     message = email.mime.text.MIMEText('''Thanks for signing up to SydGig!
 Please click on this link to verify your email: %s''' % ('http://www.sydgig.com/newsletter_verify?email=%s&code=%s' % verification_code))
     s = smtplib.SMTP('localhost')
-    s.sendmail('noreply@sydgig.com', [eml], message.as_string())
+    s.sendmail(sender, [eml], message.as_string())
     s.quit()
