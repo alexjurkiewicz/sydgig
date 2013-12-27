@@ -17,7 +17,7 @@ app.config['SECRET_KEY'] = config.get('main', 'app_secret_key')
 
 RECAPTCHA_PUBLIC_KEY = config.get('main', 'recaptcha_public_key')
 RECAPTCHA_PRIVATE_KEY = config.get('main', 'recaptcha_private_key')
-EMAIL_ADMIN_FROM = config.get('main', 'email_admin_from')
+EMAIL_FROM_NOREPLY = config.get('main', 'email_from_noreply')
 EMAIL_ADMIN_TO = config.get('main', 'email_admin_to')
 
 templates = template.templates
@@ -105,10 +105,10 @@ def gig_report(id):
             abort(400)
         msg = email.mime.text.MIMEText('Gig ID: %s\nReason: %s\nFrom IP: %s' % (id, request.form['reason'], request.remote_addr))
         msg['Subject'] = 'Sydgig report for gig %s' % id
-        msg['From'] = EMAIL_ADMIN_FROM
+        msg['From'] = EMAIL_FROM_NOREPLY
         msg['To'] = EMAIL_ADMIN_TO
 
-        tasks.send_gig_report_email.delay(sender=EMAIL_ADMIN_FROM, recipient=EMAIL_ADMIN_TO, message=msg)
+        tasks.send_gig_report_email.delay(sender=EMAIL_FROM_NOREPLY, recipient=EMAIL_ADMIN_TO, message=msg)
 
         template = templates.get_template("gig_report_success.html")
         return template.render(gig=model.get_gig_by_id(id))

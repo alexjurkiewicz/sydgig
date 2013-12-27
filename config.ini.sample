@@ -2,5 +2,5 @@
 app_secret_key: xxx
 recaptcha_public_key: xxx
 recaptcha_private_key: xxx
-email_admin_from: sydgig@domain
+email_from_noreply: sydgig@domain
 email_admin_to: you@domain
