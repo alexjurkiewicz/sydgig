@@ -75,10 +75,10 @@ Please click on this link to verify your email: %s''' % ('http://www.sydgig.com/
     s.sendmail(sender_email, [recipient], message.as_string())
     s.quit()
 
-#@periodic_task(run_every=crontab(minute=0, hour=7, day_of_week=1, day_of_month='*', month_of_year='*'))
 @app.task
 def send_weekly_newsletter():
     print 'here i am!'
 
 assert 'send-weekly-newsletter' not in app.conf.CELERYBEAT_SCHEDULE
-app.conf.CELERYBEAT_SCHEDULE['send-weekly-newsletter'] = { 'task': 'send_weekly_newsletter', 'schedule': crontab(), }
+app.conf.CELERYBEAT_SCHEDULE['send-weekly-newsletter'] = { 'task': 'sydgig.tasks.send_weekly_newsletter', 'schedule': crontab(), }
+# crontab(minute=0, hour=7, day_of_week=1, day_of_month='*', month_of_year='*')
