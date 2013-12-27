@@ -65,7 +65,7 @@ def send_newsletter_signup_confirmation(recipient, verification_code):
     sender_name = config.get('main', 'email_from_noreply_name')
     sender_email = config.get('main', 'email_from_noreply_email')
     message = email.mime.text.MIMEText('''Thanks for signing up to SydGig!
-Please click on this link to verify your email: %s''' % ('http://www.sydgig.com/newsletter_verify?email=%s&code=%s' % (recipient, verification_code)))
+Please click on this link to verify your email: %s''' % ('http://www.sydgig.com/newsletter-verify?email=%s&code=%s' % (recipient, verification_code)))
     message['Subject'] = 'Welcome to SydGig'
     message['From'] = '%s <%s>' % (sender_name, sender_email)
     message['To'] = recipient
