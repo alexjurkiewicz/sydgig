@@ -5,6 +5,7 @@ import datetime, random, time, os, smtplib, email
 import sydgig.template as template
 import sydgig.model as model
 import sydgig.tasks as tasks
+import sydgig.config as config
 
 from flask import Flask, request, redirect, url_for, abort, g
 import werkzeug
@@ -12,12 +13,12 @@ import werkzeug
 import recaptcha.client.captcha as recaptcha
 
 app = Flask(__name__)
-app.config['SECRET_KEY'] = os.urandom(32)
+app.config['SECRET_KEY'] = config.get('main', 'app_secret_key')
 
-RECAPTCHA_PUBLIC_KEY = '6LdSPugSAAAAAJncStVRJ_9FNY-lJ85QKKXWDDBd'
-RECAPTCHA_PRIVATE_KEY = '6LdSPugSAAAAAGq-KLr2Pv4rDeABYBqwEr2UO1Mo'
-EMAIL_ADMIN_FROM = 'sydgig@sydgig.com'
-EMAIL_ADMIN_TO = 'alex@jurkiewi.cz'
+RECAPTCHA_PUBLIC_KEY = config.get('main', 'recaptcha_public_key')
+RECAPTCHA_PRIVATE_KEY = config.get('main', 'recaptcha_private_key')
+EMAIL_ADMIN_FROM = config.get('main', 'email_admin_from')
+EMAIL_ADMIN_TO = config.get('main', 'email_admin_to')
 
 templates = template.templates
 
