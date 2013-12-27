@@ -60,11 +60,15 @@ def send_gig_report_email(recipient, sender, message):
     s.quit()
 
 @celery.task
-def send_newsletter_signup_confirmation(eml, verification_code):
+def send_newsletter_signup_confirmation(recipient, verification_code):
     import smtplib, email
-    sender = sydgig.config('main', 'email_from_noreply')
+    sender_name = config.get('main', 'email_from_noreply_name')
+    sender_email = config.get('main', 'email_from_noreply_email')
     message = email.mime.text.MIMEText('''Thanks for signing up to SydGig!
-Please click on this link to verify your email: %s''' % ('http://www.sydgig.com/newsletter_verify?email=%s&code=%s' % verification_code))
+Please click on this link to verify your email: %s''' % ('http://www.sydgig.com/newsletter_verify?email=%s&code=%s' % (recipient, verification_code)))
+    message['Subject'] = 'Welcome to SydGig'
+    message['From'] = '%s <%s>' % (sender_name, sender_email)
+    message['To'] = recipient
     s = smtplib.SMTP('localhost')
-    s.sendmail(sender, [eml], message.as_string())
+    s.sendmail(sender_email, [recipient], message.as_string())
     s.quit()
