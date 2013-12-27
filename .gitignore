@@ -4,3 +4,4 @@ venv*
 celerydb-results.sqlite
 celerydb-tasks.sqlite
 .idea
+config.ini
