@@ -166,4 +166,6 @@ def newsletter_verify():
     code = request.form['code']
     if model.verify_email(email, code):
         template = templates.get_template("newsletter_verify_success.html")
+    else:
+        template = templates.get_template("newsletter_verify_failure.html")
     return template.render()
