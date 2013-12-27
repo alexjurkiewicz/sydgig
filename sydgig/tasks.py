@@ -14,12 +14,13 @@ from celery.schedules import crontab
 
 logger = get_task_logger('tasks')
 
-celery = Celery('tasks', broker=BROKER_URL, backend='database')
-celery.conf.CELERY_RESULT_BACKEND = "database"
-celery.conf.CELERY_RESULT_DBURI = "sqlite:///celerydb-results.sqlite"
+app = Celery('tasks', broker=BROKER_URL, backend='database')
+app.conf.CELERY_RESULT_BACKEND = "database"
+app.conf.CELERY_RESULT_DBURI = "sqlite:///celerydb-results.sqlite"
+app.conf.CELERY_TIMEZONE = config.get('main', 'timezone')
 
 # eg tasks.update_artist_data.delay('twerps')
-@celery.task
+@app.task
 def update_artist_data(name):
     '''Given the name of an artist in the database, clean up their record'''
     import sydgig.model as model
@@ -40,7 +41,7 @@ def update_artist_data(name):
     else:
         return "Couldn't update artist data for %s as no record matches that name!" % name
 
-@celery.task
+@app.task
 def update_venue_data(name):
     '''Given the name of a venue in the database, clean up its record'''
     import sydgig.model as model
@@ -53,14 +54,14 @@ def update_venue_data(name):
         address = info['formatted_address']
         model.update_venue_by_id(original_record.id, address=address)
 
-@celery.task
+@app.task
 def send_gig_report_email(recipient, sender, message):
     import smtplib
     s = smtplib.SMTP('localhost')
     s.sendmail(sender,  [recipient], message.as_string())
     s.quit()
 
-@celery.task
+@app.task
 def send_newsletter_signup_confirmation(recipient, verification_code):
     import smtplib, email
     sender_name = config.get('main', 'email_from_noreply_name')
@@ -75,6 +76,9 @@ Please click on this link to verify your email: %s''' % ('http://www.sydgig.com/
     s.quit()
 
 #@periodic_task(run_every=crontab(minute=0, hour=7, day_of_week=1, day_of_month='*', month_of_year='*'))
-@periodic_task(run_every=crontab())
+@app.task
 def send_weekly_newsletter():
     print 'here i am!'
+
+assert 'send-weekly-newsletter' not in app.conf.CELERYBEAT_SCHEDULE
+app.conf.CELERYBEAT_SCHEDULE['send-weekly-newsletter'] = { 'task': 'send_weekly_newsletter', 'schedule': crontab(), }

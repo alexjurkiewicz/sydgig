@@ -5,3 +5,4 @@ recaptcha_private_key: xxx
 email_from_noreply_name: SydGig
 email_from_noreply_email: noreply@sydgig.domain
 email_admin_to: you@domain
+timezone: Australia/Sydney
