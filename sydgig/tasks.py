@@ -77,7 +77,7 @@ Please click on this link to verify your email: %s''' % ('http://www.sydgig.com/
 
 @app.task
 def send_weekly_newsletter():
-    print 'here i am!'
+    print model.get_all_newsletter_subscribers()
 
 assert 'send-weekly-newsletter' not in app.conf.CELERYBEAT_SCHEDULE
 app.conf.CELERYBEAT_SCHEDULE['send-weekly-newsletter'] = { 'task': 'sydgig.tasks.send_weekly_newsletter', 'schedule': crontab(), }

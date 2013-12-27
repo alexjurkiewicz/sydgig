@@ -179,3 +179,7 @@ def verify_email(email, code):
         return True
     else:
         return False
+
+def get_all_newsletter_subscribers():
+    s = database.Session()
+    return [sub.email for sub in s.query(NewsletterSubscriber).all()]
