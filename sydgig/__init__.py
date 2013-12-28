@@ -1,6 +1,7 @@
 from __future__ import division, absolute_import
 
 import datetime, random, time, os, smtplib, email
+import logging.handlers
 
 import sydgig.template as template
 import sydgig.model as model
@@ -15,6 +16,12 @@ import recaptcha.client.captcha as recaptcha
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = config.get('main', 'app_secret_key')
+app.config['DEBUG'] = config.get('main', 'debug')
+
+# All error logs are emailed
+mail_handler = SMTPHandler(config.get('main', 'smtp_server'), config.get('main', 'email_from_noreply_email'), [config.get('main', 'email_admin_to')], 'SydGig failure')
+mail_handler.setLevel(logging.ERROR)
+app.logger.addHandler(mail_handler)
 
 RECAPTCHA_PUBLIC_KEY = config.get('main', 'recaptcha_public_key')
 RECAPTCHA_PRIVATE_KEY = config.get('main', 'recaptcha_private_key')
