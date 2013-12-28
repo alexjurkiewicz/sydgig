@@ -7,6 +7,7 @@ import sydgig.model as model
 import sydgig.tasks as tasks
 import sydgig.config as config
 
+
 from flask import Flask, request, redirect, url_for, abort, g
 import werkzeug
 
