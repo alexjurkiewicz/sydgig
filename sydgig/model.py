@@ -182,4 +182,4 @@ def verify_email(email, code):
 
 def get_all_newsletter_subscribers():
     s = database.Session()
-    return [sub.email for sub in s.query(NewsletterSubscriber).all()]
+    return [sub.email for sub in s.query(NewsletterSubscriber).all() if sub.verified]

@@ -18,6 +18,8 @@ app = Celery('tasks', broker=BROKER_URL, backend='database')
 app.conf.CELERY_RESULT_BACKEND = "database"
 app.conf.CELERY_RESULT_DBURI = "sqlite:///celerydb-results.sqlite"
 app.conf.CELERY_TIMEZONE = config.get('main', 'timezone')
+app.conf.CELERY_SEND_TASK_ERROR_EMAILS = True
+app.conf.CELERY_SEND_TASK_ERROR_EMAILS = (config.get('main', 'email_admin_to'), config.get('main', 'email_admin_to'))
 
 # eg tasks.update_artist_data.delay('twerps')
 @app.task
@@ -77,7 +79,20 @@ Please click on this link to verify your email: %s''' % ('http://www.sydgig.com/
 
 @app.task
 def send_weekly_newsletter():
-    print model.get_all_newsletter_subscribers()
+    import sydgig.model as model
+    import time
+    subscribers = model.get_all_newsletter_subscribers()
+    sender_name = config.get('main', 'email_from_noreply_name')
+    sender_email = config.get('main', 'email_from_noreply_email')
+    gigs = model.get_gigs()
+
+    message_plain = '''SydGig - upcoming gigs for the week of {week_pretty}'''.format(week_pretty=time.strftime('%d %B'))
+    message_plain += '\n\n'
+    for date in sorted(gigs.keys()):
+        #if gigs[date]:
+        message_plain += '{date_pretty}:'.format(date_pretty=date)
+
+    print message_plain
 
 assert 'send-weekly-newsletter' not in app.conf.CELERYBEAT_SCHEDULE
 app.conf.CELERYBEAT_SCHEDULE['send-weekly-newsletter'] = { 'task': 'sydgig.tasks.send_weekly_newsletter', 'schedule': crontab(), }
