@@ -27,6 +27,8 @@ This repository is intended to be used with a Python virtualenv. This is a Pytho
 3. `. ./venv/bin/activate` (Unix) or `venv\Scripts\Activate` (Windows)
 4. `pip install -r requirements.txt`
 
+(If you ever want to upgrade these dependencies later, use `pip install -U -r requirements.txt`.)
+
 How to run the site
 -------------------
 
