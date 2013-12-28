@@ -20,7 +20,7 @@
     {% if artist.bio %}
     <h3>About</h3>
     <p>
-    {% autoescape false %}{{artist.bio}}{% endautoescape %}
+    {% autoescape false %}{{ artist.bio|replace("\n","<br>") }}{% endautoescape %}
     </p>
     {% endif %}
     </div>
