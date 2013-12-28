@@ -19,7 +19,7 @@ app.config['SECRET_KEY'] = config.get('main', 'app_secret_key')
 app.config['DEBUG'] = config.get('main', 'debug')
 
 # All error logs are emailed
-mail_handler = SMTPHandler(config.get('main', 'smtp_server'), config.get('main', 'email_from_noreply_email'), [config.get('main', 'email_admin_to')], 'SydGig failure')
+mail_handler = logging.handlers.SMTPHandler(config.get('main', 'smtp_server'), config.get('main', 'email_from_noreply_email'), [config.get('main', 'email_admin_to')], 'SydGig failure')
 mail_handler.setLevel(logging.ERROR)
 app.logger.addHandler(mail_handler)
 
