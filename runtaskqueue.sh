@@ -1,3 +1,3 @@
 #!/bin/bash
 
-celery -A sydgig.tasks worker --loglevel=debug -B -c 1
+celery -A sydgig.tasks worker --loglevel=debug -B

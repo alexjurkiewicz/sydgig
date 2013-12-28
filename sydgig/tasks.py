@@ -23,6 +23,12 @@ app.conf.ADMINS = (config.get('main', 'email_admin_to'), config.get('main', 'ema
 app.conf.EMAIL_HOST = config.get('main', 'smtp_server')
 app.conf.SERVER_EMAIL = config.get('main', 'email_from_noreply_email')
 
+# low scalability = easier debugging
+app.conf.CELERYD_CONCURRENCY = config.get('main', 'celery_workers')
+app.conf.CELERYD_PREFETCH_MULTIPLIER = 1
+app.conf.BROKER_POOL_LIMIT = None
+app.conf.CELERYD_MAX_TASKS_PER_CHILD = 1
+
 # eg tasks.update_artist_data.delay('twerps')
 @app.task
 def update_artist_data(name):

@@ -8,3 +8,4 @@ email_admin_to: you@domain
 timezone: Australia/Sydney
 base_url_pretty: www.domain.com
 smtp_server: localhost
+celery_workers: 1
