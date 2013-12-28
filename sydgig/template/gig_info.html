@@ -12,7 +12,7 @@
     </div>
     {% if gig.description %}
     <div class="row">
-        <p>{{ gig.description|urlize(40, true) }}</p>
+        <p>{% autoescape false %}{{ gig.description|escape|urlize(40, true)|replace('\n', '<br>') }}{% endautoescape %}</p>
     </div>
     {% endif %}
     <div class="row">

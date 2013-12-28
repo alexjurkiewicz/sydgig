@@ -34,7 +34,7 @@
 <script type="text/javascript">
     var RecaptchaOptions = {
         theme : 'white',
-        tabindex : 7,
+        tabindex : 8,
     };
 </script>
 {% endblock %}
@@ -129,11 +129,16 @@
     </div>
 
     <div class="form-group">
+        <label for="gigdesc">Description/Links? (optional)</label>
+        <textarea class="form-control" rows="3" tabindex="7" name="gigdesc" id="desc-input"></textarea>
+    </div>
+
+    <div class="form-group">
         <label>No robots allowed</label>
         {% autoescape false %}{{ captcha_html }}{% endautoescape %}
     </div>
 
-    <button tabindex="8" type="submit" class="btn btn-submit">Looks Good!</button>
+    <button tabindex="9" type="submit" class="btn btn-submit">Looks Good!</button>
 
 </form>
 </div>

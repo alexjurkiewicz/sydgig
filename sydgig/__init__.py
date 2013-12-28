@@ -135,6 +135,7 @@ def add():
         venue = request.form['venue']
         artists = [artist for artist in request.form.getlist('artists')if artist]
         gigname = request.form['gigname']
+        gigdesc = request.form['gigdesc']
         if not venue or not artists:
             abort(400)
 
@@ -145,7 +146,7 @@ def add():
             if not model.get_artist_by_name(artist):
                 model.add_artist(artist)
         artist_ids = [model.get_artist_by_name(artist).id for artist in artists]
-        model.add_gig(time_start, venue_id, artist_ids, name=gigname)
+        model.add_gig(time_start, venue_id, artist_ids, name=gigname, description = gigdesc)
 
         return redirect(url_for('index'))
     else: # unknown request method
