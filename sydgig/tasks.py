@@ -19,7 +19,9 @@ app.conf.CELERY_RESULT_BACKEND = "database"
 app.conf.CELERY_RESULT_DBURI = "sqlite:///celerydb-results.sqlite"
 app.conf.CELERY_TIMEZONE = config.get('main', 'timezone')
 app.conf.CELERY_SEND_TASK_ERROR_EMAILS = True
-app.conf.CELERY_SEND_TASK_ERROR_EMAILS = (config.get('main', 'email_admin_to'), config.get('main', 'email_admin_to'))
+app.conf.ADMINS = (config.get('main', 'email_admin_to'), config.get('main', 'email_admin_to'))
+app.conf.EMAIL_HOST = config.get('main', 'smtp_server')
+app.conf.SERVER_EMAIL = config.get('main', 'email_from_noreply_email')
 
 # eg tasks.update_artist_data.delay('twerps')
 @app.task
