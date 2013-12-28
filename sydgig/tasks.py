@@ -58,14 +58,11 @@ def update_venue_data(name):
 
 @app.task
 def send_gig_report_email(recipient, sender, message):
-    import smtplib
-    s = smtplib.SMTP('localhost')
-    s.sendmail(sender,  [recipient], message.as_string())
-    s.quit()
+    send_email.delay(sender, recipient, message.as_string())
 
 @app.task
 def send_newsletter_signup_confirmation(recipient, verification_code):
-    import smtplib, email
+    import email
     sender_name = config.get('main', 'email_from_noreply_name')
     sender_email = config.get('main', 'email_from_noreply_email')
     message = email.mime.text.MIMEText('''Thanks for signing up to SydGig!
@@ -73,14 +70,12 @@ Please click on this link to verify your email: %s''' % ('http://www.sydgig.com/
     message['Subject'] = 'Welcome to SydGig'
     message['From'] = '%s <%s>' % (sender_name, sender_email)
     message['To'] = recipient
-    s = smtplib.SMTP('localhost')
-    s.sendmail(sender_email, [recipient], message.as_string())
-    s.quit()
+    send_email.delay(sender_email, recipient, message.as_string())
 
 @app.task
 def send_weekly_newsletter():
     import sydgig.model as model
-    import time
+    import time, email
     subscribers = model.get_all_newsletter_subscribers()
     sender_name = config.get('main', 'email_from_noreply_name')
     sender_email = config.get('main', 'email_from_noreply_email')
@@ -98,9 +93,22 @@ def send_weekly_newsletter():
                 message_plain += '    - {artists} at {venue}\n'.format(artists=artists, venue=gig.venue.name)
             message_plain += '\n'
 
-    print '''\nThat's all! Check out the website for any late additions or to submit gigs yourself: {website_url}\n\n'''.format(website_url=config.get('main', 'base_url_pretty'))
-    print 'Regards, SydGig.\n'
+    message_plain += '''\nThat's all! Check out the website for any late additions and to submit gigs yourself: {website_url}\n\n'''.format(website_url=config.get('main', 'base_url_pretty'))
+    message_plain += 'Regards, SydGig.\n'
+
+    message = email.mime.text.MIMEText(message_plain)
+    message['Subject'] = subject
+    message['From'] = '%s <%s>' % (sender_name, sender_email)
+    for recipient in subscribers:
+        message['To'] = recipient
+        send_email.delay(sender_email, recipient, message.as_string())
 
 assert 'send-weekly-newsletter' not in app.conf.CELERYBEAT_SCHEDULE
-app.conf.CELERYBEAT_SCHEDULE['send-weekly-newsletter'] = { 'task': 'sydgig.tasks.send_weekly_newsletter', 'schedule': crontab(), }
-# crontab(minute=0, hour=7, day_of_week=1, day_of_month='*', month_of_year='*')
+app.conf.CELERYBEAT_SCHEDULE['send-weekly-newsletter'] = { 'task': 'sydgig.tasks.send_weekly_newsletter', 'schedule': crontab() }
+#crontab(minute=0, hour=7, day_of_week=1, day_of_month='*', month_of_year='*'), }
+
+@app.task
+def send_email(sender, recipient, body_text):
+    import smtplib
+    s = smtplib.SMTP(config.get('main', 'smtp_server'))
+    s.sendmail(sender, [recipient], body_text)
