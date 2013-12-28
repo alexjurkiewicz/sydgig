@@ -153,9 +153,9 @@ def add():
             if not model.get_artist_by_name(artist):
                 model.add_artist(artist)
         artist_ids = [model.get_artist_by_name(artist).id for artist in artists]
-        model.add_gig(time_start, venue_id, artist_ids, name=gigname, description = gigdesc)
+        gig_id = model.add_gig(time_start, venue_id, artist_ids, name=gigname, description = gigdesc)
 
-        return redirect(url_for('index'))
+        return redirect('/gig/%s' % gig_id)
     else: # unknown request method
         assert False
 

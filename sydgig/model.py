@@ -97,6 +97,7 @@ def add_gig(time_start, venue_id, artist_ids, name=None, description=None):
             pass
     s.add(gig)
     s.commit()
+    return gig.id
 
 def delete_gig(id):
     s = database.Session()
