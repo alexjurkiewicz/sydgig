@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% set active_page = 'gig' -%}
+
+{% block head %}
+<title>Captcha failed - SydGig</title>
+{% endblock %}
+
+{% block content %}
+<div class="row">
+    <h2>Robot test failed</h2>
+    <p>Sorry mate, you failed the captcha, go back and have another go.</p>
+</div>
+{% endblock %}
+
+{% block footer %}
+{{ super() }}
+{% endblock %}

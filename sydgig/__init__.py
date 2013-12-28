@@ -117,7 +117,7 @@ def gig_report(id):
     else:
         assert False
 
-# Submit
+# Submit new gig
 @app.route('/add', methods=['GET', 'POST'])
 def add():
     if request.method == 'GET':
@@ -127,7 +127,8 @@ def add():
         # validate captcha
         recaptcha_response = recaptcha.submit(request.form['recaptcha_challenge_field'], request.form['recaptcha_response_field'], RECAPTCHA_PRIVATE_KEY, request.remote_addr)
         if not recaptcha_response.is_valid:
-            abort(400)
+            template = templates.get_template("recaptcha_failed.html")
+            return template.render()
 
         time_start = time.strptime("%s %s" % (request.form['date'], request.form['time']), '%A %d %B, %Y %H:%M')
         time_start = datetime.datetime.fromtimestamp(time.mktime(time_start))
