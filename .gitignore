@@ -3,5 +3,6 @@ venv*
 *.pyc
 celerydb-results.sqlite
 celerydb-tasks.sqlite
+celerybeat-schedule.db
 .idea
 config.ini
