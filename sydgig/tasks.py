@@ -86,13 +86,20 @@ def send_weekly_newsletter():
     sender_email = config.get('main', 'email_from_noreply_email')
     gigs = model.get_gigs()
 
-    message_plain = '''SydGig - upcoming gigs for the week of {week_pretty}'''.format(week_pretty=time.strftime('%d %B'))
+    subject = '''SydGig - upcoming gigs for {week_pretty}'''.format(week_pretty=time.strftime('%d %B %Y'))
+    message_plain = ''
+    message_plain += subject
     message_plain += '\n\n'
     for date in sorted(gigs.keys()):
-        #if gigs[date]:
-        message_plain += '{date_pretty}:'.format(date_pretty=date)
+        if gigs[date]:
+            message_plain += '{date_pretty}:\n'.format(date_pretty=date.strftime('%a %d'))
+            for gig in gigs[date]:
+                artists = ', '.join([artist.name for artist in gig.performers])
+                message_plain += '    - {artists} at {venue}\n'.format(artists=artists, venue=gig.venue.name)
+            message_plain += '\n'
 
-    print message_plain
+    print '''\nThat's all! Check out the website for any late additions or to submit gigs yourself: {website_url}\n\n'''.format(website_url=config.get('main', 'base_url_pretty'))
+    print 'Regards, SydGig.\n'
 
 assert 'send-weekly-newsletter' not in app.conf.CELERYBEAT_SCHEDULE
 app.conf.CELERYBEAT_SCHEDULE['send-weekly-newsletter'] = { 'task': 'sydgig.tasks.send_weekly_newsletter', 'schedule': crontab(), }
