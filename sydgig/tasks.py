@@ -112,8 +112,7 @@ def send_weekly_newsletter():
         send_email.delay(sender_email, recipient, message.as_string())
 
 assert 'send-weekly-newsletter' not in app.conf.CELERYBEAT_SCHEDULE
-app.conf.CELERYBEAT_SCHEDULE['send-weekly-newsletter'] = { 'task': 'sydgig.tasks.send_weekly_newsletter', 'schedule': crontab() }
-#crontab(minute=0, hour=7, day_of_week=1, day_of_month='*', month_of_year='*'), }
+app.conf.CELERYBEAT_SCHEDULE['send-weekly-newsletter'] = { 'task': 'sydgig.tasks.send_weekly_newsletter', 'schedule': crontab(minute=0, hour=7, day_of_week=1, day_of_month='*', month_of_year='*'), }
 
 @app.task
 def send_email(sender, recipient, body_text):
