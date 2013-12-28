@@ -30,11 +30,12 @@ This repository is intended to be used with a Python virtualenv. This is a Pytho
 How to run the site
 -------------------
 
-SydGig has two components: the website and the task queue/runner.
+Firstly, create config.ini and edit it:
 
-In dev, you can start the components using `./runwebsite.sh` and `./runtaskqueue.sh`.
+1. `cp config.ini.sample config.ini`
+2. `vi config.ini`
 
-In prod, you should host the application using a better web server than Flask's built-in one. Here's how to do it with Ubuntu + nginx + uwsgi.
+SydGig as a running application has two components: the website and the background task queue. In dev, you can start these components with `./runwebsite.sh` and `./runtaskqueue.sh`. In prod, you should host the website using a real server. Here's how to do it with Ubuntu + nginx + uwsgi.
 
 1. Install `uwsgi`, `uwsgi-plugin-python`, `uwsgi-extra` and `nginx`. Add config like this to nginx.conf:
 
@@ -53,6 +54,6 @@ In prod, you should host the application using a better web server than Flask's 
 
         uwsgi_python -s /tmp/sydgig.sock --module sydgig --callable app -H venv
 
-   (You'll probably also need to change the socket permissions so nginx can access it: `chgrp www-data /tmp/sydgig.sock`. Or if you prefer, run uwsgi\_python with `--uid www-data --gid www-data`.)
+3. Change the socket permissions so nginx can access it: `chgrp www-data /tmp/sydgig.sock`. (Better: Use uwsgi\_python's `--uid` and `--gid` to run the app as a zero-permissions user and add www-data to that group.)
 
 3. Start the task queue in the same manner as dev: `./runtaskqueue.sh`
