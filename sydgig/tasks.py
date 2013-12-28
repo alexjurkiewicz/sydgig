@@ -85,17 +85,17 @@ def send_weekly_newsletter():
 
     subject = '''SydGig - upcoming gigs for {week_pretty}'''.format(week_pretty=time.strftime('%d %B %Y'))
     message_plain = ''
-    message_plain += subject
-    message_plain += '\n\n'
     for date in sorted(gigs.keys()):
         if gigs[date]:
-            message_plain += '{date_pretty}:\n'.format(date_pretty=date.strftime('%a %d'))
+            date_pretty = date.strftime('%A') + ' ' + str(int(date.strftime('%d')))
+            message_plain += '{date_pretty}:\n'.format(date_pretty=date_pretty)
             for gig in gigs[date]:
                 artists = ', '.join([artist.name for artist in gig.performers])
-                message_plain += '    - {artists} at {venue}\n'.format(artists=artists, venue=gig.venue.name)
+                gig_url =  config.get('main', 'base_url_pretty') + '/gig/%s' % gig.id
+                message_plain += '    - {artists} at {venue}: {gig_url}\n'.format(artists=artists, venue=gig.venue.name, gig_url=gig_url)
             message_plain += '\n'
 
-    message_plain += '''\nThat's all! Check out the website for any late additions and to submit gigs yourself: {website_url}\n\n'''.format(website_url=config.get('main', 'base_url_pretty'))
+    message_plain += '''\nThat's all! Check out the website for late additions and to submit gigs yourself: {website_url}\n\n'''.format(website_url=config.get('main', 'base_url_pretty'))
     message_plain += 'Regards, SydGig.\n'
 
     message = email.mime.text.MIMEText(message_plain)
