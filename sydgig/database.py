@@ -41,13 +41,15 @@ class Gig(Base):
     time_start = Column(DateTime)
     venue_id = Column(Integer, ForeignKey('venues.id'))
     name = Column(String) # note: this is optional!
+    description = Column(String) # also optional
 
     performers = relationship('Artist', secondary=gig_lineup, backref='gigs_performed')
 
-    def __init__(self, time_start, venue_id, name=None):
+    def __init__(self, time_start, venue_id, name=None, description=None):
         self.time_start = time_start
         self.venue_id = venue_id
         self.name = name
+        self.description = description
 
     def __repr__(self):
         return '{Gig %s: %s: %s}' % (self.id, self.name if self.name else 'Untitled', ', '.join([i.name for i in self.performers]))

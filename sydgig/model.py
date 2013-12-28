@@ -86,9 +86,9 @@ def get_gig_calendar(weeks=3):
     return get_gigs(days_into_future=future_days, days_into_past=previous_days)
 
 
-def add_gig(time_start, venue_id, artist_ids, name=None):
+def add_gig(time_start, venue_id, artist_ids, name=None, description=None):
     s = database.Session()
-    gig = Gig(time_start, venue_id, name=name)
+    gig = Gig(time_start, venue_id, name=name, description=description)
     for id in artist_ids:
         try:
             artist = s.query(Artist).filter(Artist.id == id).one()
