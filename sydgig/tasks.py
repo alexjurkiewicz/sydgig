@@ -19,7 +19,7 @@ app.conf.CELERY_RESULT_BACKEND = "database"
 app.conf.CELERY_RESULT_DBURI = "sqlite:///celerydb-results.sqlite"
 app.conf.CELERY_TIMEZONE = config.get('main', 'timezone')
 app.conf.CELERY_SEND_TASK_ERROR_EMAILS = True
-app.conf.ADMINS = (config.get('main', 'email_admin_to'), config.get('main', 'email_admin_to'))
+app.conf.ADMINS = ((config.get('main', 'email_admin_to'), config.get('main', 'email_admin_to')),)
 app.conf.EMAIL_HOST = config.get('main', 'smtp_server')
 app.conf.SERVER_EMAIL = config.get('main', 'email_from_noreply_email')
 
@@ -119,3 +119,11 @@ def send_email(sender, recipient, body_text):
     import smtplib
     s = smtplib.SMTP(config.get('main', 'smtp_server'))
     s.sendmail(sender, [recipient], body_text)
+
+@app.task
+def send_admin_notification(subject, body_text):
+    import email
+    message = email.mime.text.MIMEText(body_text)
+    message['Subject'] = subject
+    message['From'] = '%s <%s>' % (config.get('main', 'email_from_noreply_name'), config.get('main', 'email_from_noreply_email'))
+    send_email(config.get('main', 'email_from_noreply_email'), config.get('main', 'email_admin_to'), message.as_string())
