@@ -9,7 +9,7 @@ A website that tracks:
 * The artists who play them,
 * The venues who host them,
 
-Runs as a Python app and is currently NOT PRODUCTION READY.
+Runs as a Python app and is currently SORTA PRODUCTION READY.
 
 Requirements
 ------------
