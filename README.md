@@ -20,7 +20,7 @@ Requirements
 Installation
 ------------
 
-This repository is intended to be used with a Python virtualenv. This is a Python install in a single directory, which means no need to pollute your system with the real requirements. You just need virtualenv installed system wide. If you can't run 'virtualenv', you need to install it:
+This repository is intended to be used with a Python virtualenv. This is a Python install in a single directory, which means no need to pollute your system with the real requirements. You just need virtualenv installed system wide. If you can't run `virtualenv`, you need to install it:
 
 1. `cd sydgig`
 2. `virtualenv venv`
