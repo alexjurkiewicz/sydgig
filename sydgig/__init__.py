@@ -77,6 +77,7 @@ def about():
             'http://www.youtube.com/watch?v=Vfl18wIVApQ', # standish/carlyon - nono/yoyo
             'http://www.youtube.com/watch?v=Cc9ScFgWqcg', # single twin - my silken tooth
             'http://www.youtube.com/watch?v=enZ-TZrwLPY', # los tones - buchanan hammer
+            'http://www.youtube.com/watch?v=tb_Ogb0zzhA', # hermitude - speak of the devil
             )
     template = templates.get_template("about.html")
     return template.render(video=random.choice(vids))
