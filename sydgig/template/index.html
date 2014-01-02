@@ -36,7 +36,8 @@
     <p>{{ date|simpledate }}</p>
     <ul>
         {% for gig in gigs[date] -%}
-        <li><p class="calendar-text"><a href="/gig/{{gig.id}}">({{ gig.time_start|simpletime }}) {{ gig.performers|map(attribute='name')|truncate_list|english_join(final_sep=' + ') }} @ {{gig.venue.name }}</a></p></li>
+        {% if gig.name %}{% set gigdisplayname = gig.name %}{% else %}{% set gigdisplayname = gig.performers|map(attribute='name')|truncate_list|english_join(final_sep=' + ') + ' @ ' + gig.venue.name %}{% endif -%}
+        <li><p class="calendar-text"><a href="/gig/{{gig.id}}">({{ gig.time_start|simpletime }}) {{ gigdisplayname }}</a></p></li>
         {% endfor -%}
     </ul>
     </p>
