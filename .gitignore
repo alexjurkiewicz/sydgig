@@ -4,5 +4,6 @@ venv*
 celerydb-results.sqlite
 celerydb-tasks.sqlite
 celerybeat-schedule.db
+celerybeat-schedule
 .idea
 config.ini
