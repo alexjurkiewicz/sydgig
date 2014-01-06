@@ -40,12 +40,16 @@ def update_artist_data(name):
         name = info.name
         bio = info.bio.content
 
-        imgdata = requests.get(info.image['mega'], stream=True).raw.read()
-        imgext = info.image['mega'].rsplit('.', 1)[-1]
-        localpath = os.path.join('sydgig', 'static', 'artist_images', str(original_record.id) + '.' + imgext)
-        with open(localpath, 'wb') as f:
-            f.write(imgdata)
-        image_url = '/static/artist_images/' + str(original_record.id) + '.' + imgext
+        mega_url = info.image['mega']
+        if mega_url:
+            imgdata = requests.get(mega_url, stream=True).raw.read()
+            imgext = mega_url.rsplit('.', 1)[-1]
+            localpath = os.path.join('sydgig', 'static', 'artist_images', str(original_record.id) + '.' + imgext)
+            with open(localpath, 'wb') as f:
+                f.write(imgdata)
+            image_url = '/static/artist_images/' + str(original_record.id) + '.' + imgext
+        else:
+            image_url='/static/artist_images/unknown.png'
 
         model.update_artist_by_id(original_record.id, name=name, bio=bio, image_url=image_url)
     else:
