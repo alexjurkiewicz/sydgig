@@ -37,6 +37,8 @@ def update_artist_data(name):
     original_record = model.get_artist_by_name(name)
     if original_record:
         info = lastfm_api.get_artist_info(name)
+        if not info: # last.fm has nothing
+            return "last.fm has no info on artist '%s'" % name
         name = info.name
         bio = info.bio.content
 
