@@ -56,8 +56,11 @@ class Gig(Base):
 
     @property
     def pretty_time_start(self):
-        '''Thursday 26 September 2013, 04:21 PM'''
-        return self.time_start.strftime('%A %d %B %Y, %I:%M %p')
+        '''
+        looks like: Thursday 26 September 2013, 04:21 pm
+        We need to lowercase AM/PM from strftime
+        '''
+        return self.time_start.strftime('%A %d %B %Y, %I:%M ') + self.time_start.strftime('%p').lower()
 
 class Venue(Base):
     __tablename__ = 'venues'
