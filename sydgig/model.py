@@ -88,6 +88,7 @@ def get_gig_calendar(weeks=3):
 
 def add_gig(time_start, venue_id, artist_ids, name=None, description=None):
     s = database.Session()
+    # XXX: validate time_start is not more than 90(?) days in the future
     gig = Gig(time_start, venue_id, name=name, description=description)
     for id in artist_ids:
         try:
