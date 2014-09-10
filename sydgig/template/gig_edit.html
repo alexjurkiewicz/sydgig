@@ -1,0 +1,96 @@
+{% extends "base.html" %}
+{% set active_page = 'add' -%}
+
+{% block head %}
+<title>Edit Gig - SydGig</title>
+<link rel="stylesheet" href="/static/js/jquery-ui.min.css" />
+<script type="text/javascript" src="/static/js/jquery-1.9.1.min.js"></script>
+<script type="text/javascript" src="/static/js/jquery-ui.min.js"></script>
+
+<script type="text/javascript">
+    function addArtistField() {
+        var newinput = document.createElement('input');
+        newinput.className = "artist-input form-control";
+        newinput.type = "text";
+        newinput.name = "artists";
+        newinput.tabIndex = "3";
+        document.getElementById('gigAddArtists').appendChild(newinput);
+        newinput.focus();
+    }
+    $(function () {
+        $("#datepicker").datepicker({ dateFormat: "DD d MM, yy", firstDay: 1, minDate: 0, maxDate: 90, showOtherMonths: true, selectOtherMonths: true, });
+    });
+</script>
+
+<script type="text/javascript">
+    var RecaptchaOptions = {
+        theme : 'white',
+        tabindex : 8,
+    };
+</script>
+{% endblock %}
+
+{% block content %}
+<div class="container" style="max-width: 500px">
+    <h2>Edit {% if gig.name %}"{{ gig.name }}"{% else %}Gig{% endif %}</h2>
+<form role="form" action="" method="post" id="gig-edit">
+    <div class="form-group">
+        <label for="date">Date</label>
+        <input tabindex="1" class="form-control" type="text" id="datepicker" name="date" placeholder="{{ gig.time_start|longdate }}" value="{{ gig.time_start|longdate }}">
+    </div>
+    <div class="form-group">
+        <label for="time">Time</label><br>
+        <select tabindex="2" class="form-control" name="time" style="display: inline;">
+            {# we don't statically define this list (like in add.html) because we need to dynamically select the right start time #}
+            {# XXX: should be lowercase am/pm but that's painful #}
+            {% for ampm in [ 'AM', 'PM' ] -%}
+            {% for hour in ['12','1','2','3','4','5','6','7','8','9','10','11'] -%}
+            {% for min in ['00', '30'] -%}
+            <option value="{{ hour }}:{{ min }} {{ ampm }}"{% if gig.time_start.strftime("%-I:%M %p") == "%s:%s %s"|format(hour, min, ampm) %} selected="selected"{% endif %}>{{ hour }}:{{ min }} {{ ampm }}</option>
+            {% endfor -%}
+            {% endfor -%}
+            {% endfor -%}
+        </select>
+    </div>
+
+    <div id="gigAddArtists" class="form-group">
+        <label for "artists">Who?</label>
+        {% for artist in gig.performers %}
+        <input tabindex="3" class="artist-input form-control" type="text" name="artists" id="first-artist-input" value="{{ artist.name }}">
+        {% endfor %}
+    </div>
+    <button tabindex="4" type="button" class="btn btn-default btn-sm" onclick="addArtistField();">
+        <span class="glyphicon glyphicon-plus"></span> Add another artist
+    </button>
+    <br>
+    <br>
+
+    <div class="form-group">
+        <label for="venue">Where?</label>
+        <input tabindex="5" class="form-control" type="text" name="venue" id="venue-input" value="{{ gig.venue.name }}">
+    </div>
+
+    <div class="form-group">
+        <label for="gigname">Gig Name? (optional)</label>
+        <input tabindex="6" class="form-control" type="text" name="gigname" id="name-input" value="{{ gig.name }}">
+    </div>
+
+    <div class="form-group">
+        <label for="gigdesc">Description/Links? (optional)</label>
+        <textarea class="form-control" rows="3" tabindex="7" name="gigdesc" id="desc-input" value="{{ gig.description }}"></textarea>
+    </div>
+
+    <div class="form-group">
+        <label>No robots allowed</label>
+        {% autoescape false %}{{ captcha_html }}{% endautoescape %}
+    </div>
+
+    <button tabindex="9" type="submit" class="btn btn-submit">Looks Good!</button>
+
+</form>
+</div>
+{% endblock %}
+
+{% block footer %}
+{{ super() }}
+{% endblock %}

@@ -102,6 +102,14 @@ def gig_info(id):
     template = templates.get_template("gig_info.html")
     return template.render(gig=model.get_gig_by_id(id))
 
+# Edit gig
+@app.route('/edit/<int:id>', methods=['GET', 'POST'])
+def edit(id):
+    template = templates.get_template("gig_edit.html")
+    gig = model.get_gig_by_id(id)
+    captcha_html=recaptcha.displayhtml(RECAPTCHA_PUBLIC_KEY)
+    return template.render(gig=gig, captcha_html=captcha_html)
+
 @app.route('/gig/report/<int:id>', methods=('GET', 'POST'))
 def gig_report(id):
     if request.method == 'GET':
